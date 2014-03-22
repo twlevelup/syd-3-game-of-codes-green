@@ -8,3 +8,6 @@
   Site: https://github.com/dbousamra
   Location: Sydney
 
+  Ben Shi
+  Site: https://github.com/hbish
+  Location: Sydney
