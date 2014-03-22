@@ -3,3 +3,8 @@
   James Gregory (ThoughtWorks)
   Site: https://github.com/jagregory
   Location: Sydney
+  
+  Dominic Bou-Samra
+  Site: https://github.com/dbousamra
+  Location: Sydney
+
