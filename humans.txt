@@ -15,3 +15,8 @@
   Ben Shi
   Site: https://github.com/hbish
   Location: Sydney
+
+  Harrison Conlin
+  Site: https://github.com/harrisony
+  Location: Sydney
+
