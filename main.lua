@@ -2,18 +2,19 @@ require 'input'
 require 'player'
 require 'obstacle'
 require 'version'
+require 'asteroid'
 
 love.animation = require 'vendor/anim8'
 
 local entities = {}
 local player = Player:new(love, {x = 100, y = 100})
-local obstacle = Obstacle:new(love, {x = 200, y = 200})
+local asteroid = Asteroid:new(love, {x = 500, y = 500, speed = 100})
 
 function love.load()
     print("Version: " .. version)
 
     table.insert(entities, player)
-    table.insert(entities, obstacle)
+    table.insert(entities, asteroid)
 
     love.input.bind('up', 'up')
     love.input.bind('left', 'left')
