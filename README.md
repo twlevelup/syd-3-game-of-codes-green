@@ -1,6 +1,6 @@
 # LevelUp Build - Game of Codes
 
-[![Build Status](https://travis-ci.org/twlevelup/syd-3-game-of-codes.png?branch=master)](https://travis-ci.org/twlevelup/syd-3-game-of-codes)
+[![Build Status](https://travis-ci.org/twlevelup/syd-3-game-of-codes-green.svg)](https://travis-ci.org/twlevelup/syd-3-game-of-codes-green)
 
 
 ## Developer Environment Setup
