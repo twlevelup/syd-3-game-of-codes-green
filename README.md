@@ -1,7 +1,12 @@
 # LevelUp Build - Game of Codes
 
-[![Build Status](https://travis-ci.org/twlevelup/syd-3-game-of-codes.png?branch=master)](https://travis-ci.org/twlevelup/syd-3-game-of-codes)
+[![Build Status](https://travis-ci.org/twlevelup/syd-3-game-of-codes-green.svg)](https://travis-ci.org/twlevelup/syd-3-game-of-codes-green)
 
+## QA Builds
+
+##### OSX: http://levelup-sydney.s3-ap-southeast-2.amazonaws.com/ci/twlevelup/syd-3-game-of-codes-green/latest/LevelUp.app.tar.gz
+##### Linux: http://levelup-sydney.s3-ap-southeast-2.amazonaws.com/ci/twlevelup/syd-3-game-of-codes-green/latest/levelup.love
+##### Windows: http://levelup-sydney.s3-ap-southeast-2.amazonaws.com/ci/twlevelup/syd-3-game-of-codes-green/latest/windows-levelup.zip
 
 ## Developer Environment Setup
 
