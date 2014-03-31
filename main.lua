@@ -8,7 +8,7 @@ love.animation = require 'vendor/anim8'
 
 local entities = {}
 local player = Player:new(love, {x = 100, y = 100})
-local asteroid = Asteroid:new(love, {x = 500, y = 500, speed = 100})
+local asteroid = Asteroid:new(love)
 
 function love.load()
     print("Version: " .. version)

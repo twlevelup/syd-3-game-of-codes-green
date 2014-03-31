@@ -5,12 +5,16 @@ Asteroid.__index = Asteroid
 setmetatable(Asteroid, {__index = Entity})
 
 function Asteroid:new(game, config)
-	local config = config or {}
+  local config = config or {}
   local newAsteroid = Entity:new(game)
 
-  newAsteroid.x = config.x
-  newAsteroid.y = config.y
-  newAsteroid.speed = config.speed
+  math.randomseed(os.time())
+  newAsteroid.x = config.x or 800
+  newAsteroid.y = config.y or math.random(100, 500)
+  newAsteroid.speed = config.speed or {
+    x = 100,
+    y = math.random(-50, 50)
+  }
   newAsteroid.size = config.size or {
     x = 100,
     y = 100
@@ -28,7 +32,7 @@ function Asteroid:new(game, config)
     )
     newAsteroid.graphics.animation = game.animation.newAnimation(
       newAsteroid.graphics.grid("1-1", 1),
-      0.03
+      0.05
     )
   end
 
@@ -36,6 +40,6 @@ function Asteroid:new(game, config)
 end
 
 function Asteroid:update(dt)
-  self.x = self.x - self.speed * dt 
+  self.x = self.x - self.speed.x * dt
+  self.y = self.y - self.speed.y * dt
 end
-		
