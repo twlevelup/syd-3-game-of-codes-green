@@ -12,6 +12,8 @@ function Player:new(game, config)
     newPlayer.type = "player"
     newPlayer.x = config.x or 400
     newPlayer.y = config.y or 300
+    newPlayer.min_y = config.min_y or 0
+    newPlayer.max_y = config.max_y or 600
     newPlayer.size = config.size or {
         x = 98,
         y = 60
@@ -69,33 +71,26 @@ function Player:collide(other)
 end
 
 function Player:update(dt)
-    local dx = 0
     local dy = 0
 
-    if self.game.input.pressed(self.keys.left) then
-        dx = dx - self.speed
-
-        if self.graphics.facing ~= "left" then
-            self.graphics.animation:flipH()
-            self.graphics.facing = "left"
-        end
+    local canMoveUp = function()
+      return self.y >= self.min_y + self.speed
     end
 
-    if self.game.input.pressed(self.keys.right) then
-        dx = dx + self.speed
-
-        if self.graphics.facing ~= "right" then
-            self.graphics.animation:flipH()
-            self.graphics.facing = "right"
-        end
+    local canMoveDown = function()
+      return self.y <= self.max_y - self.size.y - self.speed
     end
 
     if self.game.input.pressed(self.keys.up) then
-        dy = dy - self.speed
+        if (canMoveUp()) then
+          dy = dy - self.speed
+        end
     end
 
     if self.game.input.pressed(self.keys.down) then
-        dy = dy + self.speed
+        if (canMoveDown()) then
+          dy = dy + self.speed
+        end
     end
 
     self.lastPosition = {
@@ -103,11 +98,10 @@ function Player:update(dt)
         y = self.y
     }
 
-    self.x = self.x + dx
     self.y = self.y + dy
 
     if self.graphics.animation ~= nil then
-        if dx ~= 0 or dy ~= 0 then
+        if dy ~= 0 then
             self.graphics.animation:update(dt)
         else
             self.graphics.animation:gotoFrame(1)
@@ -115,7 +109,7 @@ function Player:update(dt)
     end
 
     if self.sound.moving.sample ~= nil then
-        if dx ~= 0 or dy ~= 0 then
+        if dy ~= 0 then
             self.sound.moving.sample:play()
         else
             self.sound.moving.sample:stop()

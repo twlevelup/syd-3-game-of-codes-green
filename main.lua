@@ -1,13 +1,17 @@
 require 'input'
 require 'player'
 require 'obstacle'
+require 'stage'
 require 'version'
 require 'asteroid'
 
 love.animation = require 'vendor/anim8'
 
 local entities = {}
-local player = Player:new(love, {x = 100, y = 100})
+local player = Player:new(love, {x = 10})
+player.y = (love.graphics.getHeight() - player.size.y) / 2
+local obstacle = Obstacle:new(love, {x = 200, y = 200})
+local stage = Stage:new(love)
 local asteroid = Asteroid:new(love)
 
 function love.load()
@@ -25,7 +29,7 @@ end
 function love.update(dt)
     for _, entity in pairs(entities) do
         entity:update(dt)
-
+        stage:update(dt)
         for _, other in pairs(entities) do
             if other ~= entity then
                 if entity:collidingWith(other) then
@@ -37,6 +41,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    stage:draw()
     for _, e in pairs(entities) do
         e:draw()
     end

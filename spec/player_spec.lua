@@ -38,6 +38,10 @@ describe("Player", function()
             return sound_spy
         end
 
+        isVisible = function(player)
+          return player.y <= player.max_y - player.size.y
+        end
+
         describe("playing the movement sound", function()
             it("should play the movement sound when the player is moving", function()
                 local player = Player:new(mock_input('up'))
@@ -74,26 +78,6 @@ describe("Player", function()
                 assert.is.equal(player.y, 9)
                 assert.are.same(player.lastPosition, {x = orig_x, y = orig_y})
             end)
-
-            it("should store the last position before moving horizonally", function()
-                orig_x = 10
-                orig_y = 10
-                local player = Player:new(
-                    mock_input('left'),
-                    {
-                        x = orig_x,
-                        y = orig_y,
-                        speed = 1
-                    }
-                )
-                player.graphics.animation = mock_animation()
-
-                player:update(dt)
-
-                assert.is.equal(player.x, 9)
-                assert.is.equal(player.y, 10)
-                assert.are.same(player.lastPosition, {x = orig_x, y = orig_y})
-            end)
         end)
 
         describe("animating the player", function()
@@ -101,25 +85,6 @@ describe("Player", function()
                 it("should point to the right by default", function()
                     local player = Player:new(mock_input('none'))
                     assert.is.equal(player.graphics.facing, "right")
-                end)
-
-                it("should point to the right when the right arrow is pressed", function()
-                    local player = Player:new(mock_input('right'))
-                    player.graphics.facing = "left"
-                    player.graphics.animation = mock_animation()
-                    player:update(dt)
-
-                    assert.is.equal(player.graphics.facing, "right")
-                    assert.spy(player.graphics.animation.flipH).was.called()
-                end)
-
-                it("should point to the left when the left arrow is pressed", function()
-                    local player = Player:new(mock_input('left'))
-                    player.graphics.animation = mock_animation()
-                    player:update(dt)
-
-                    assert.is.equal(player.graphics.facing, "left")
-                    assert.spy(player.graphics.animation.flipH).was.called()
                 end)
             end)
 
@@ -222,23 +187,50 @@ describe("Player", function()
                 assert.is.equal(orig_y + player.speed, player.y)
             end)
 
-            it("should decrement the player's x if the left-arrow is pressed", function()
+            it("should not decrement the player's x if the left-arrow is pressed", function()
                 local player = Player:new(mock_input('left'))
                 player.graphics.animation = mock_animation()
                 local orig_x = player.x
 
                 player:update(dt)
 
-                assert.is.equal(orig_x - player.speed, player.x)
+                assert.is.equal(orig_x, player.x)
             end)
 
-            it("should increment the player's x if the right-arrow is pressed", function()
+            it("should not increment the player's x if the right-arrow is pressed", function()
                 local player = Player:new(mock_input('right'))
                 local orig_x = player.x
 
                 player:update(dt)
 
-                assert.is.equal(orig_x + player.speed, player.x)
+                assert.is.equal(orig_x, player.x)
+            end)
+
+            it("should not run off the top of the screen", function ()
+              local player = Player:new(mock_input('up'))
+              player.min_y = 0
+              player.y = player.min_y
+              local orig_y = player.y
+
+              player:update(dt)
+
+              assert.is.equal(orig_y, player.y)
+              assert.is_true(isVisible(player))
+            end)
+
+            it("should not run off the bottom of the screen", function ()
+              local player = Player:new(mock_input('down'))
+              player.max_y = 100
+              player.size = {
+                  y = 10
+              }
+              player.y = player.max_y - player.size.y
+              local orig_y = player.y
+
+              player:update(dt)
+
+              assert.is.equal(orig_y, player.y)
+              assert.is_true(isVisible(player))
             end)
         end)
     end)
