@@ -12,16 +12,17 @@ function Asteroid:new(game, config)
   newAsteroid.x = config.x or 800
   newAsteroid.y = config.y or math.random(100, 500)
   newAsteroid.speed = config.speed or {
-    x = 100,
-    y = math.random(-50, 50)
+    x = 250,
+    y = math.random(-100, 100)
   }
   newAsteroid.size = config.size or {
     x = 100,
     y = 100
   }
   newAsteroid.graphics = config.graphics or {
-    source = "assets/images/asteroid.png"
+    source = "assets/images/meteor.png"
   }
+
 
   if game.graphics ~= nil and game.animation ~= nil then
     newAsteroid.graphics.sprites = game.graphics.newImage(newAsteroid.graphics.source)
@@ -36,10 +37,17 @@ function Asteroid:new(game, config)
     )
   end
 
+  newAsteroid.sx = 99 / newAsteroid.graphics.sprites:getWidth()
+  newAsteroid.sy = 99 / newAsteroid.graphics.sprites:getHeight()
+
   return setmetatable(newAsteroid, self)
 end
 
 function Asteroid:update(dt)
   self.x = self.x - self.speed.x * dt
   self.y = self.y - self.speed.y * dt
+end
+
+function Asteroid:draw()
+  self.game.graphics.draw(self.graphics.sprites, self.x, self.y, 0, self.sx, self.sy)
 end
