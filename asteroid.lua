@@ -35,10 +35,9 @@ function Asteroid:new(game, config)
       newAsteroid.graphics.grid("1-1", 1),
       0.05
     )
+    newAsteroid.sx = 100 / newAsteroid.graphics.sprites:getWidth()
+    newAsteroid.sy = 100 / newAsteroid.graphics.sprites:getHeight()
   end
-
-  newAsteroid.sx = 99 / newAsteroid.graphics.sprites:getWidth()
-  newAsteroid.sy = 99 / newAsteroid.graphics.sprites:getHeight()
 
   return setmetatable(newAsteroid, self)
 end
