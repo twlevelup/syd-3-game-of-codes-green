@@ -16,9 +16,9 @@ local player = Player:new(love, {
 })
 player.y = (love.window.getHeight() - player.size.y) / 2
 local obstacle = Obstacle:new(love, {x = 200, y = 200})
-local stage = Stage:new(love)
 local asteroid = Asteroid:new(love)
 local fuel_tank = Fuel_tank:new(love)
+local stage = Stage:new(love, {x = 0, y = 0, backgroundImage = "assets/images/space.jpg"})
 
 function love.load()
     print("Version: " .. version)
@@ -34,9 +34,9 @@ function love.load()
 end
 
 function love.update(dt)
+    stage:update(dt)
     for _, entity in pairs(entities) do
         entity:update(dt)
-        stage:update(dt)
         for _, other in pairs(entities) do
             if other ~= entity then
                 if entity:collidingWith(other) then
