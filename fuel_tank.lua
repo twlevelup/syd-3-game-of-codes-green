@@ -8,10 +8,13 @@ setmetatable(Fuel_tank, {__index = Entity})
 function Fuel_tank:new(game, config)
     local config = config or {}
     local new_fuel_tank = Entity:new(game)
-    new_fuel_tank.fuel = config.fuel or 100
+    new_fuel_tank.max_fuel = 60
+    new_fuel_tank.fuel = config.fuel or new_fuel_tank.max_fuel
+    new_fuel_tank.x = config.x or 20
+    new_fuel_tank.y = config.y or 10
     new_fuel_tank.size = config.size or {
-        x = 600,
-        y = 60
+        x = 500,
+        y = 15
     }
 
 
@@ -31,9 +34,14 @@ function Fuel_tank:is_empty()
 end
 
 function Fuel_tank:update(dt)
-    self.fuel = self.fuel - dt
+    if self.fuel > 0 then
+        self.fuel = self.fuel - dt
+    else
+        self.fuel = 0
+    end
 end
 
 function Fuel_tank:draw()
     self.game.graphics.rectangle("line", self.x, self.y, self.size.x, self.size.y)
+    self.game.graphics.rectangle("fill", self.x, self.y, self.size.x * (self.fuel / self.max_fuel), self.size.y)
 end
