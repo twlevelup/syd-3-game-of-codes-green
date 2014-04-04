@@ -129,42 +129,47 @@ describe("Player", function()
                     x = 10,
                     y = 10
                 }
+                collidingEntity.type = 'asteroid'
             end)
 
-            it("should move the player to its last position when colliding on the left side", function()
+            it("should end the game when colliding with an asteroid on the left side", function()
                 player.lastPosition = {x = 21, y = 10}
+                collidingEntity.type = 'asteroid'
+                gameover = spy.new(function() end)
 
                 player:collide(collidingEntity)
 
-                assert.is.equal(player.x, 21)
-                assert.is.equal(player.y, 10)
+                assert.spy(gameover).was.called()
             end)
 
-            it("should move the player to its last position when colliding on the right side", function()
+            it("should end the game when colliding with an asteroid on the right side", function()
                 player.lastPosition = {x = 9, y = 10}
+                collidingEntity.type = 'asteroid'
+                gameover = spy.new(function() end)
 
                 player:collide(collidingEntity)
 
-                assert.is.equal(player.x, 9)
-                assert.is.equal(player.y, 10)
+                assert.spy(gameover).was.called()
             end)
 
-            it("should move the player to its last position when colliding on the top side", function()
+            it("should end the game when colliding with an asteroid on the top side", function()
                 player.lastPosition = {x = 10, y = 11}
+                collidingEntity.type = 'asteroid'
+                gameover = spy.new(function() end)
 
                 player:collide(collidingEntity)
 
-                assert.is.equal(player.x, 10)
-                assert.is.equal(player.y, 11)
+                assert.spy(gameover).was.called()
             end)
 
-            it("should move the player to its last position when colliding on the bottom side", function()
+            it("should end the game when colliding with an asteroid on the bottom side", function()
                 player.lastPosition = {x = 10, y = 9}
+                collidingEntity.type = 'asteroid'
+                gameover = spy.new(function() end)
 
                 player:collide(collidingEntity)
 
-                assert.is.equal(player.x, 10)
-                assert.is.equal(player.y, 9)
+                assert.spy(gameover).was.called()
             end)
         end)
 
