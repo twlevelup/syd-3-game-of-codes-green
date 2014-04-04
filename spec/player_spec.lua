@@ -129,7 +129,6 @@ describe("Player", function()
                     x = 10,
                     y = 10
                 }
-                collidingEntity.type = 'asteroid'
             end)
 
             it("should end the game when colliding with an asteroid on the left side", function()
