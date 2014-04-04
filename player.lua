@@ -62,12 +62,15 @@ function Player:new(game, config)
         )
     end
 
+    newPlayer.type = 'player'
+
     return setmetatable(newPlayer, self)
 end
 
 function Player:collide(other)
-    self.x = self.lastPosition.x
-    self.y = self.lastPosition.y
+    if other.type == 'asteroid' then
+        gameover()
+    end
 end
 
 function Player:update(dt)

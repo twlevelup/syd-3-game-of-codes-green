@@ -25,18 +25,18 @@ function Asteroid:new(game, config)
     newAsteroid.graphics.sprites = game.graphics.newImage(newAsteroid.graphics.source)
     newAsteroid.sx = 100 / newAsteroid.graphics.sprites:getWidth()
     newAsteroid.sy = 100 / newAsteroid.graphics.sprites:getHeight()
-    -- No animations for now.
-    --
-    -- newAsteroid.graphics.grid = game.animation.newGrid(
-    --   newAsteroid.size.x, newAsteroid.size.y,
-    --   newAsteroid.graphics.sprites:getWidth(),
-    --   newAsteroid.graphics.sprites:getHeight()
-    -- )
-    -- newAsteroid.graphics.animation = game.animation.newAnimation(
-    --   newAsteroid.graphics.grid("1-1", 1),
-    --   0.05
-    -- )
+    newAsteroid.graphics.grid = game.animation.newGrid(
+      newAsteroid.size.x, newAsteroid.size.y,
+      newAsteroid.graphics.sprites:getWidth(),
+      newAsteroid.graphics.sprites:getHeight()
+    )
+    newAsteroid.graphics.animation = game.animation.newAnimation(
+      newAsteroid.graphics.grid("1-1", 1),
+      0.05
+    )
   end
+
+  newAsteroid.type = 'asteroid'
 
   return setmetatable(newAsteroid, self)
 end
@@ -48,4 +48,7 @@ end
 
 function Asteroid:draw()
   self.game.graphics.draw(self.graphics.sprites, self.x, self.y, self.angle, self.sx, self.sy)
+  if DEBUG_MODE then
+      self.game.graphics.rectangle("line", self.x, self.y, self.size.x, self.size.y)
+  end
 end
