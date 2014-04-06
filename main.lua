@@ -77,7 +77,7 @@ function love.load()
 end
 
 function love.update(dt)
-    game:update(dt)
+    love.state.update(dt)
     timer.update(dt)
 end
 
