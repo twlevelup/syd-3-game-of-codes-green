@@ -8,8 +8,12 @@ function Stage:new(game, config)
     stage.x = config.x or 0
     stage.y = config.y or 0
     stage.speed = config.speed or 200
-    stage.screenWidth = config.screenWidth or game.graphics:getWidth()
+    stage.screenWidth  = config.screenWidth or game.graphics:getWidth()
+    stage.screenHeight = config.screenHeight or game.graphics:getHeight()
     stage.bgWidth = config.bgWidth or stage.backgroundImage:getWidth()
+    stage.bgHeight = config.bgHeight or stage.backgroundImage:getHeight()
+    stage.sx = stage.screenWidth / stage.bgWidth
+    stage.sy = stage.screenHeight / stage.bgHeight
     return setmetatable(stage, self)
 end
 
@@ -21,6 +25,5 @@ function Stage:update(dt)
 end
 
 function Stage:draw()
-   self.game.graphics.draw(self.backgroundImage, self.x, self.y)
+   self.game.graphics.draw(self.backgroundImage, self.x, self.y, 0, self.sx, self.sy)
 end
-
