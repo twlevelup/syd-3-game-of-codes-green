@@ -27,12 +27,8 @@ function game:enter()
     table.insert(self.entities, self.fuel_tank)
 
     timer.addPeriodic(1, function()
-        table.insert(self.entities, Asteroid:new(love, {to = {x = 0, y = self.player.y - math.random(-100, 100)}}))
+        table.insert(self.entities, Asteroid:new(love, {to = {x = 0, y = math.random(0, 600)}}))
     end)
-
-    bgm = love.audio.newSource("assets/sounds/bgm.mp3")
-    bgm:setLooping(true)
-    bgm:play()
 end
 
 function game:update(dt)
