@@ -8,7 +8,7 @@ setmetatable(Fuel_tank, {__index = Entity})
 function Fuel_tank:new(game, config)
     local config = config or {}
     local new_fuel_tank = Entity:new(game)
-    new_fuel_tank.max_fuel = 60
+    new_fuel_tank.max_fuel = 30
     new_fuel_tank.fuel = config.fuel or new_fuel_tank.max_fuel
     new_fuel_tank.x = config.x or 20
     new_fuel_tank.y = config.y or 10

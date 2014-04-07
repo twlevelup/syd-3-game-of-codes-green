@@ -13,7 +13,7 @@ describe("Fuel Tank", function()
             it("should start full tank of fuel", function()
               local fuel_tank = Fuel_tank:new()
 
-              assert.is.equal(60, fuel_tank:get_fuel())
+              assert.is.equal(30, fuel_tank:get_fuel())
 
             end)
 
@@ -22,7 +22,7 @@ describe("Fuel Tank", function()
 
               fuel_tank:update(1)
 
-              assert.is.equal(59, fuel_tank:get_fuel())
+              assert.is.equal(29, fuel_tank:get_fuel())
             end)
 
             it("should run out of fuel", function()
@@ -30,7 +30,7 @@ describe("Fuel Tank", function()
 
               assert.is.equal(false, fuel_tank:is_empty())
 
-              fuel_tank:update(60)
+              fuel_tank:update(30)
 
               assert.is.equal(true, fuel_tank:is_empty())
             end)
