@@ -73,7 +73,7 @@ end
 
 function Player:collide(other)
     if other.type == 'asteroid' then
-        gameover()
+        game:gameover()
     end
 end
 

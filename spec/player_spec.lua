@@ -5,6 +5,14 @@ describe("Player", function()
     local dt = 1
 
     describe("#update", function()
+
+        mock_game = function()
+            local game_spy = {
+                gameover = spy.new(function() end)
+            }
+            return game_spy
+        end
+
         mock_input = function(action)
             return {
                 input = {
@@ -134,41 +142,41 @@ describe("Player", function()
             it("should end the game when colliding with an asteroid on the left side", function()
                 player.lastPosition = {x = 21, y = 10}
                 collidingEntity.type = 'asteroid'
-                gameover = spy.new(function() end)
+                game = mock_game()
 
                 player:collide(collidingEntity)
 
-                assert.spy(gameover).was.called()
+                assert.spy(game.gameover).was.called()
             end)
 
             it("should end the game when colliding with an asteroid on the right side", function()
                 player.lastPosition = {x = 9, y = 10}
                 collidingEntity.type = 'asteroid'
-                gameover = spy.new(function() end)
+                game = mock_game()
 
                 player:collide(collidingEntity)
 
-                assert.spy(gameover).was.called()
+                assert.spy(game.gameover).was.called()
             end)
 
             it("should end the game when colliding with an asteroid on the top side", function()
                 player.lastPosition = {x = 10, y = 11}
                 collidingEntity.type = 'asteroid'
-                gameover = spy.new(function() end)
+                game = mock_game()
 
                 player:collide(collidingEntity)
 
-                assert.spy(gameover).was.called()
+                assert.spy(game.gameover).was.called()
             end)
 
             it("should end the game when colliding with an asteroid on the bottom side", function()
                 player.lastPosition = {x = 10, y = 9}
                 collidingEntity.type = 'asteroid'
-                gameover = spy.new(function() end)
+                game = mock_game()
 
                 player:collide(collidingEntity)
 
-                assert.spy(gameover).was.called()
+                assert.spy(game.gameover).was.called()
             end)
         end)
 

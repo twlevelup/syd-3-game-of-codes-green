@@ -29,7 +29,7 @@ function game:enter()
     table.insert(self.entities, self.fuel_tank)
     table.insert(self.entities, self.purple_cow)
 
-    timer.addPeriodic(1, function()
+    timer.addPeriodic(60, function()
         table.insert(self.entities, Asteroid:new(love, {to = {x = 0, y = math.random(0, 600)}}))
     end)
 end
@@ -60,7 +60,7 @@ function game:leave()
     timer.clear()
 end
 
-function gameover()
+function game:gameover()
     love.state.switch(game)
 end
 
