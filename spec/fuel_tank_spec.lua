@@ -3,35 +3,40 @@ require 'fuel_tank'
 
 describe("Fuel Tank", function()
 
-    describe("#update", function()
+    mock_game = function()
+          local game_spy = {
+              gameover = spy.new(function() end)
+          }
+          return game_spy
+    end
+    
+    mock_graphics = function()
+          local graphics_spy = {
+              rectangle = spy.new(function() end)
+          }
+          return graphics_spy
+    end
 
-      mock_game = function()
-            local game_spy = {
-                gameover = spy.new(function() end)
-            }
-            return game_spy
-      end
+    before_each(function()
+      fuel_tank = Fuel_tank:new()
+    end)
+
+    describe("#update", function()
 
       describe("fuel consumption", function()
             it("should start full tank of fuel", function()
-              local fuel_tank = Fuel_tank:new()
 
               assert.is.equal(30, fuel_tank:get_fuel())
 
             end)
 
             it("should drain fuel", function()
-              local fuel_tank = Fuel_tank:new()
-
               fuel_tank:update(1)
 
               assert.is.equal(29, fuel_tank:get_fuel())
             end)
 
             it("should run out of fuel", function()
-              local fuel_tank = Fuel_tank:new()
-              game = mock_game()
-
               assert.is.equal(false, fuel_tank:is_empty())
 
               fuel_tank:update(30)
@@ -40,7 +45,6 @@ describe("Fuel Tank", function()
             end)
 
             it("should end the game when fuel reach 0", function()
-              local fuel_tank = Fuel_tank:new()
               fuel_tank.fuel = 1
               game = mock_game()
 
@@ -51,7 +55,6 @@ describe("Fuel Tank", function()
             end)
 
             it("should not drop below 0", function()
-              local fuel_tank = Fuel_tank:new()
               fuel_tank.fuel = 0
 
               fuel_tank:update(1)
@@ -64,22 +67,13 @@ describe("Fuel Tank", function()
 
     describe("#draw", function()
 
-      mock_graphics = function()
-            local graphics_spy = {
-                rectangle = spy.new(function() end)
-            }
-            return graphics_spy
-      end
-
       describe("fuel tank display", function()
             it("should draw a rectangle", function()
-              local fuel_tank = Fuel_tank:new({})
-
-              fuel_tank.game.graphics = mock_graphics()
+              love.graphics = mock_graphics()
 
               fuel_tank:draw()
 
-              assert.spy(fuel_tank.game.graphics.rectangle).was.called(2)
+              assert.spy(love.graphics.rectangle).was.called(2)
 
             end)
         end)

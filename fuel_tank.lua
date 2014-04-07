@@ -5,9 +5,9 @@ Fuel_tank = {}
 Fuel_tank.__index = Fuel_tank
 setmetatable(Fuel_tank, {__index = Entity})
 
-function Fuel_tank:new(game, config)
+function Fuel_tank:new(love, config)
     local config = config or {}
-    local new_fuel_tank = Entity:new(game)
+    local new_fuel_tank = Entity:new(love)
     new_fuel_tank.max_fuel = 30
     new_fuel_tank.fuel = config.fuel or new_fuel_tank.max_fuel
     new_fuel_tank.x = config.x or 20
@@ -46,6 +46,6 @@ function Fuel_tank:update(dt)
 end
 
 function Fuel_tank:draw()
-    self.game.graphics.rectangle("line", self.x, self.y, self.size.x, self.size.y)
-    self.game.graphics.rectangle("fill", self.x, self.y, self.size.x * (self.fuel / self.max_fuel), self.size.y)
+    love.graphics.rectangle("line", self.x, self.y, self.size.x, self.size.y)
+    love.graphics.rectangle("fill", self.x, self.y, self.size.x * (self.fuel / self.max_fuel), self.size.y)
 end
