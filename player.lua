@@ -16,8 +16,8 @@ function Player:new(game, config)
     newPlayer.max_y = config.max_y or 600
     newPlayer.score = config.score or 0
     newPlayer.size = config.size or {
-        x = 98,
-        y = 60
+        x = 150,
+        y = 150
     }
 
     newPlayer.speed = config.speed or 5
@@ -26,11 +26,12 @@ function Player:new(game, config)
         up = "up",
         down = "down",
         left = "left",
-        right = "right"
+        right = "right",
+        shoot = "z"
     }
 
     newPlayer.graphics = config.graphics or {
-        source = "assets/images/nyancat-sprites.png",
+        source = "assets/images/SpaceCowboy.png",
         facing = "right"
     }
 
@@ -52,6 +53,8 @@ function Player:new(game, config)
 
     if game.graphics ~= nil and game.animation ~= nil then
         newPlayer.graphics.sprites = game.graphics.newImage(newPlayer.graphics.source)
+        newPlayer.sx = newPlayer.size.x / newPlayer.graphics.sprites:getWidth()
+        newPlayer.sy = newPlayer.size.y / newPlayer.graphics.sprites:getHeight()
         newPlayer.graphics.grid = game.animation.newGrid(
             newPlayer.size.x, newPlayer.size.y,
             newPlayer.graphics.sprites:getWidth(),
@@ -97,6 +100,10 @@ function Player:update(dt)
         end
     end
 
+    if self.game.input.pressed(self.keys.shoot) then
+        self.shoot()
+    end
+
     self.lastPosition = {
         x = self.x,
         y = self.y
@@ -119,4 +126,12 @@ function Player:update(dt)
             self.sound.moving.sample:stop()
         end
     end
+
+end
+
+function Player:shoot()
+end
+
+function Player:draw()
+  self.game.graphics.draw(self.graphics.sprites, self.x, self.y, self.angle, self.sx, self.sy)
 end

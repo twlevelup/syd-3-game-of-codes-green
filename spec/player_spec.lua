@@ -172,6 +172,16 @@ describe("Player", function()
             end)
         end)
 
+        describe("player shooting",function()
+            it("should shoot a bullet when the z key is pressed", function( )
+                local player = Player:new(mock_input('z'))
+                player.shoot = spy.new(function() end)
+
+                player:update(1)
+                assert.spy(player.shoot).was.called(1)
+            end)
+        end)
+
         describe("player movement", function()
             it("should decrement the player's y if the up-arrow is pressed", function()
                 local player = Player:new(mock_input('up'))

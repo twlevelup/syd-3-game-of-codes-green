@@ -4,6 +4,7 @@ require 'player'
 require 'fuel_tank'
 require 'stage'
 require 'asteroid'
+require 'purple_cow'
 
 love.animation = require 'vendor/anim8'
 love.state = require 'vendor/gamestate'
@@ -21,10 +22,12 @@ function game:enter()
     self.player.y = (love.window.getHeight() - self.player.size.y) / 2
     self.fuel_tank = Fuel_tank:new(love)
     self.stage = Stage:new(love, {x = 0, y = 0, backgroundImage = "assets/images/space.jpg"})
+    self.purple_cow = Purple_Cow:new(love)
 
     table.insert(self.entities, self.player)
     table.insert(self.entities, self.asteroid)
     table.insert(self.entities, self.fuel_tank)
+    table.insert(self.entities, self.purple_cow)
 
     timer.addPeriodic(1, function()
         table.insert(self.entities, Asteroid:new(love, {to = {x = 0, y = math.random(0, 600)}}))
@@ -68,6 +71,7 @@ function love.load()
     love.input.bind('left', 'left')
     love.input.bind('right', 'right')
     love.input.bind('down', 'down')
+    love.input.bind('z','z')
 
     love.state.switch(game)
 end
