@@ -237,5 +237,14 @@ describe("Player", function()
               assert.is_true(isVisible(player))
             end)
         end)
+
+        describe("Score", function()
+            it("should start with 0", function()
+                local player = Player:new({})
+
+                assert.is.equal(0, player.score)
+            end)
+        end)
+    
     end)
 end)

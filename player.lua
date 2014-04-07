@@ -14,6 +14,7 @@ function Player:new(game, config)
     newPlayer.y = config.y or 300
     newPlayer.min_y = config.min_y or 0
     newPlayer.max_y = config.max_y or 600
+    newPlayer.score = config.score or 0
     newPlayer.size = config.size or {
         x = 98,
         y = 60
