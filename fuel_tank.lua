@@ -39,6 +39,10 @@ function Fuel_tank:update(dt)
     else
         self.fuel = 0
     end
+
+    if self:is_empty() then
+        gameover()
+    end
 end
 
 function Fuel_tank:draw()
