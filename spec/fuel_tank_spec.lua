@@ -38,9 +38,11 @@ describe("Fuel Tank", function()
 
             it("should run out of fuel", function()
               assert.is.equal(false, fuel_tank:is_empty())
+              game = mock_game()
 
               fuel_tank:update(30)
 
+              assert.spy(game.gameover).was.called(1)
               assert.is.equal(true, fuel_tank:is_empty())
             end)
 
