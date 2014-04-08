@@ -21,11 +21,12 @@ function Scoreboard:draw()
   love.graphics.setColor(56,57,59)
   love.graphics.rectangle("fill", Scoreboard.x, Scoreboard.y, Scoreboard.width, Scoreboard.height)
   love.graphics.setColor(255,255,255)
-  love.graphics.printf("Game Over, Press \"Space\" to start again", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET, LINE_LIMIT, "center", 0, 1, 1.5)  
+  love.graphics.printf("Game Over, \nPress \"Space\" to start again", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET, LINE_LIMIT, "center", 0, 1, 1.5)  
 end
 
 function Scoreboard:keyreleased(key)
     if key == ' ' then
-        love.state.switch(game)
+      game.isLost = false
+      love.state.switch(game)
     end
 end

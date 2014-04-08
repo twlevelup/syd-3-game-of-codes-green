@@ -73,6 +73,10 @@ function Player:new(game, config)
     return setmetatable(newPlayer, self)
 end
 
+function Player:updatescore(points)
+    self.score = self.score + points
+end
+
 function Player:collide(other)
     if other.type == 'asteroid' then
         game:gameover()

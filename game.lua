@@ -38,6 +38,10 @@ function game:enter()
 
     -- play background music
     game:playmusic("assets/sounds/Game_Background.mp3")
+
+    -- check if game over
+    self.isLost = false
+    self.isPaused = false
 end
 
 function game:playmusic(song)
@@ -47,6 +51,7 @@ function game:playmusic(song)
 end
 
 function game:update(dt)
+    if self.isPaused then return end
     self.stage:update(dt)
     for _, entity in pairs(self.entities) do
         entity:update(dt)
@@ -65,6 +70,14 @@ function game:draw()
     for _, e in pairs(self.entities) do
         e:draw()
     end
+    love.graphics.printf("--Press \"Space\" to Pause--", love.window.getWidth() * 0.25, love.window.getHeight() * 0.95, 400, "center", 0, 1, 1.5)
+    if self.isPaused then drawPauseMessage() end
+end
+
+function game:keyreleased(key)
+    if key == ' ' and game.isLost == false then
+      self.isPaused = not self.isPaused; 
+    end
 end
 
 function game:leave()
@@ -73,5 +86,6 @@ function game:leave()
 end
 
 function game:gameover()
+    self.isLost = true
     love.state.switch(Scoreboard)
 end
