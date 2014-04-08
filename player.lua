@@ -14,6 +14,8 @@ function Player:new(game, config)
     newPlayer.y = config.y or 300
     newPlayer.min_y = config.min_y or 0
     newPlayer.max_y = config.max_y or 600
+    newPlayer.min_x = config.min_x or 0
+    newPlayer.max_x = config.max_x or 600
     newPlayer.score = config.score or 0
     newPlayer.size = config.size or {
         x = 150,
@@ -79,6 +81,7 @@ end
 
 function Player:update(dt)
     local dy = 0
+    local dx = 0
 
     local canMoveUp = function()
       return self.y >= self.min_y + self.speed
@@ -86,6 +89,14 @@ function Player:update(dt)
 
     local canMoveDown = function()
       return self.y <= self.max_y - self.size.y - self.speed
+    end
+
+    local canMoveLeft = function()
+      return self.x >= self.min_x + self.speed
+    end
+
+    local canMoveRight = function()
+      return self.x <= self.max_x - self.size.x - self.speed
     end
 
     if self.game.input.pressed(self.keys.up) then
@@ -100,6 +111,18 @@ function Player:update(dt)
         end
     end
 
+    if self.game.input.pressed(self.keys.left) then
+        if (canMoveLeft()) then
+          dx = dx - self.speed
+        end
+    end
+
+    if self.game.input.pressed(self.keys.right) then
+        if (canMoveRight()) then
+          dx = dx + self.speed
+        end
+    end
+
     if self.game.input.pressed(self.keys.shoot) then
         self.shoot()
     end
@@ -110,9 +133,10 @@ function Player:update(dt)
     }
 
     self.y = self.y + dy
+    self.x = self.x + dx
 
     if self.graphics.animation ~= nil then
-        if dy ~= 0 then
+        if dy ~= 0 or dx ~= 0  then
             self.graphics.animation:update(dt)
         else
             self.graphics.animation:gotoFrame(1)
@@ -120,7 +144,7 @@ function Player:update(dt)
     end
 
     if self.sound.moving.sample ~= nil then
-        if dy ~= 0 then
+        if dy ~= 0 or dx ~= 0  then
             self.sound.moving.sample:play()
         else
             self.sound.moving.sample:stop()
