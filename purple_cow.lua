@@ -14,7 +14,7 @@ function Purple_Cow:new(game, config)
 
    newPurple_Cow.size = config.size or {x = 100, y = 100}
 
-  newPurple_Cow.graphics = config.graphics or {source = "assets/images/GreenCow.png"}
+  newPurple_Cow.graphics = config.graphics or {source = "assets/images/PurpleCow.png"}
   if game.graphics ~= nil and game.animation ~= nil then
     newPurple_Cow.graphics.sprites = game.graphics.newImage(newPurple_Cow.graphics.source)
     newPurple_Cow.sx = 100 / newPurple_Cow.graphics.sprites:getWidth()

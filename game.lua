@@ -31,13 +31,13 @@ function game:enter()
     table.insert(self.entities, self.fuel_tank)
     table.insert(self.entities, self.purple_cow)
 
-    -- add the timer bar
+    -- add the Asteroids
     timer.addPeriodic(1, function()
         table.insert(self.entities, Asteroid:new(love, {to = {x = 0, y = math.random(0, 600)}}))
     end)
 
     -- play background music
-    --game:playmusic("assets/sounds/bgm.mp3")
+    game:playmusic("assets/sounds/Game_Background.mp3")
 end
 
 function game:playmusic(song)
