@@ -80,5 +80,5 @@ function game:leave()
 end
 
 function game:gameover()
-    love.state.switch(Scoreboard)
+    love.state.switch(Scoreboard, self.player.score)
 end
