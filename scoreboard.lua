@@ -1,6 +1,4 @@
-love.state = require 'vendor/gamestate'
-
-Scoreboard = love.state.new()
+Scoreboard = {}
 
 local HEADING_OFFSET = 25
 local LINE_OFFSET = 10
@@ -26,7 +24,6 @@ end
 
 function Scoreboard:keyreleased(key)
     if key == ' ' then
-      game.isLost = false
       love.state.switch(game)
     end
 end

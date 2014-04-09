@@ -209,23 +209,23 @@ describe("Player", function()
                 assert.is.equal(orig_y + player.speed, player.y)
             end)
 
-            it("should not decrement the player's x if the left-arrow is pressed", function()
+            it("should decrement the player's x if the left-arrow is pressed", function()
                 local player = Player:new(mock_input('left'))
                 player.graphics.animation = mock_animation()
                 local orig_x = player.x
 
                 player:update(dt)
 
-                assert.is.equal(orig_x, player.x)
+                assert.is.equal(orig_x - player.speed, player.x)
             end)
 
-            it("should not increment the player's x if the right-arrow is pressed", function()
+            it("should increment the player's x if the right-arrow is pressed", function()
                 local player = Player:new(mock_input('right'))
                 local orig_x = player.x
 
                 player:update(dt)
 
-                assert.is.equal(orig_x, player.x)
+                assert.is.equal(orig_x + player.speed, player.x)
             end)
 
             it("should not run off the top of the screen", function ()
@@ -263,6 +263,6 @@ describe("Player", function()
                 assert.is.equal(0, player.score)
             end)
         end)
-    
+
     end)
 end)

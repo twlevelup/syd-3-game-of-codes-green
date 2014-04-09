@@ -13,7 +13,7 @@ timer = require 'vendor/timer'
 -- Game States
 require 'game'
 require 'scoreboard'
-require 'pause_board'
+require 'pause'
 
 function love.load()
     print("Version: " .. version)
@@ -29,9 +29,6 @@ function love.load()
 end
 
 function love.update(dt)
-    if game.isPaused then return end
-    love.state.update(dt)
-    timer.update(dt)
 end
 
 function love.draw()
