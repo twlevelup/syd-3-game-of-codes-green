@@ -22,7 +22,7 @@ function Asteroid:new(game, config)
 
   newAsteroid.graphics = config.graphics or {source = "assets/images/meteor.png"}
   if game.graphics ~= nil and game.animation ~= nil then
-    newAsteroid.graphics.sprites = game.graphics.newImage(newAsteroid.graphics.source)
+    newAsteroid.graphics.sprites = config.graphics.sprites or game.graphics.newImage(newAsteroid.graphics.source)
     newAsteroid.yratio = (newAsteroid.graphics.sprites:getHeight() / newAsteroid.graphics.sprites:getWidth())
     newAsteroid.xratio = (newAsteroid.graphics.sprites:getWidth() / newAsteroid.graphics.sprites:getHeight())
     newAsteroid.sx = newAsteroid.size.x / newAsteroid.graphics.sprites:getWidth()

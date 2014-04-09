@@ -31,8 +31,12 @@ function game:enter()
 
     -- add the Asteroids
     self.timer = timer.new()
+    local asteroidsprite = love.graphics.newImage("assets/images/meteor.png")
     self.timer:addPeriodic(1, function()
-        table.insert(self.entities, Asteroid:new(love, {to = {x = 0, y = math.random(0, 600)}}))
+        table.insert(self.entities, Asteroid:new(love, {
+          to = {x = 0, y = math.random(0, 600)},
+          graphics = {sprites = asteroidsprite}
+        }))
     end)
     self.timer:addPeriodic(0.2, function()
         self.player:updatescore(1)
