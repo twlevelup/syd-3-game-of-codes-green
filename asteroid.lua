@@ -18,7 +18,7 @@ function Asteroid:new(game, config)
   newAsteroid.dx = newAsteroid.speed * math.cos(newAsteroid.angle)
   newAsteroid.dy = newAsteroid.speed * math.sin(newAsteroid.angle)
 
-  newAsteroid.size = config.size or {x = 100, y = 100}
+  newAsteroid.size = config.size or {x = 70, y = 70}
 
   newAsteroid.graphics = config.graphics or {source = "assets/images/meteor.png"}
   if game.graphics ~= nil and game.animation ~= nil then
