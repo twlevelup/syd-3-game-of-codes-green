@@ -1,5 +1,6 @@
 require 'input'
 require 'entity'
+require 'asteroid'
 
 Player = {}
 Player.__index = Player
@@ -20,6 +21,15 @@ function Player:new(game, config)
     newPlayer.size = config.size or {
         x = 150,
         y = 150
+    }
+
+    newPlayer.shape = config.shape or {
+        x = newPlayer.x,
+        y = newPlayer.y,
+        size = {
+            x = newPlayer.size.x - newPlayer.size.x/10,
+            y = newPlayer.size.y/3
+        }
     }
 
     newPlayer.speed = config.speed or 5
@@ -67,8 +77,6 @@ function Player:new(game, config)
             0.05
         )
     end
-
-    newPlayer.type = 'player'
 
     return setmetatable(newPlayer, self)
 end
@@ -138,6 +146,8 @@ function Player:update(dt)
 
     self.y = self.y + dy
     self.x = self.x + dx
+    self.shape.y = self.shape.y + dy
+    self.shape.x = self.shape.x + dx
 
     if self.graphics.animation ~= nil then
         if dy ~= 0 or dx ~= 0  then
@@ -163,4 +173,7 @@ end
 function Player:draw()
   self.game.graphics.draw(self.graphics.sprites, self.x, self.y, self.angle, self.sx, self.sy)
   love.graphics.printf("Score: " .. self.score, love.window.getWidth() * 0.80, love.window.getHeight() * 0.015, 400, "left", 0, 1, 1.5)
+  if DEBUG_MODE then
+      self.game.graphics.rectangle("line", self.shape.x, self.shape.y, self.shape.size.x, self.shape.size.y)
+  end
 end

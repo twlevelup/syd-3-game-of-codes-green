@@ -118,65 +118,25 @@ describe("Player", function()
         end)
 
         describe("collide", function()
-            local player, collidingEntity
-
-            before_each(function()
-                player = Player:new({})
-                player.size = {
-                    x = 10,
-                    y = 10
-                }
-                player.x = 20
-                player.y = 10
-                player.graphics.animation = mock_animation()
-
-                collidingEntity = Entity:new({})
-                collidingEntity.x = 10
-                collidingEntity.y = 10
-                collidingEntity.size = {
-                    x = 10,
-                    y = 10
-                }
-            end)
-
-            it("should end the game when colliding with an asteroid on the left side", function()
-                player.lastPosition = {x = 21, y = 10}
-                collidingEntity.type = 'asteroid'
+            it("should end the game when colliding with an asteroid", function()
+                local player = Player:new({})
+                local asteroid = Asteroid:new({})
                 game = mock_game()
 
-                player:collide(collidingEntity)
+                player:collide(asteroid)
 
-                assert.spy(game.gameover).was.called()
+                assert.spy(game.gameover).was.called(1)
             end)
 
-            it("should end the game when colliding with an asteroid on the right side", function()
-                player.lastPosition = {x = 9, y = 10}
-                collidingEntity.type = 'asteroid'
-                game = mock_game()
+            it("should move its shape the same amount as it moves", function()
+                local player = Player:new(mock_input('up'))
+                orig = {x = player.x, y = player.y}
+                orig.shape = {x = player.shape.x, y = player.shape.y}
 
-                player:collide(collidingEntity)
+                player:update(1)
 
-                assert.spy(game.gameover).was.called()
-            end)
-
-            it("should end the game when colliding with an asteroid on the top side", function()
-                player.lastPosition = {x = 10, y = 11}
-                collidingEntity.type = 'asteroid'
-                game = mock_game()
-
-                player:collide(collidingEntity)
-
-                assert.spy(game.gameover).was.called()
-            end)
-
-            it("should end the game when colliding with an asteroid on the bottom side", function()
-                player.lastPosition = {x = 10, y = 9}
-                collidingEntity.type = 'asteroid'
-                game = mock_game()
-
-                player:collide(collidingEntity)
-
-                assert.spy(game.gameover).was.called()
+                assert.is.equal(orig.x - player.x, orig.shape.x - player.shape.x)
+                assert.is.equal(orig.y - player.y, orig.shape.y - player.shape.y)
             end)
         end)
 
