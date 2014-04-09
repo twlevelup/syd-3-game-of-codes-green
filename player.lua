@@ -19,17 +19,8 @@ function Player:new(game, config)
     newPlayer.max_x = config.max_x or 600
     newPlayer.score = config.score or 0
     newPlayer.size = config.size or {
-        x = 150,
-        y = 150
-    }
-
-    newPlayer.shape = config.shape or {
-        x = newPlayer.x,
-        y = newPlayer.y,
-        size = {
-            x = newPlayer.size.x - newPlayer.size.x/10,
-            y = newPlayer.size.y/3
-        }
+        x = 175,
+        y = 175
     }
 
     newPlayer.speed = config.speed or 5
@@ -65,8 +56,19 @@ function Player:new(game, config)
 
     if game.graphics ~= nil and game.animation ~= nil then
         newPlayer.graphics.sprites = game.graphics.newImage(newPlayer.graphics.source)
+        newPlayer.yratio = (newPlayer.graphics.sprites:getHeight() / newPlayer.graphics.sprites:getWidth())
+        newPlayer.xratio = (newPlayer.graphics.sprites:getWidth() / newPlayer.graphics.sprites:getHeight())
         newPlayer.sx = newPlayer.size.x / newPlayer.graphics.sprites:getWidth()
-        newPlayer.sy = newPlayer.size.y / newPlayer.graphics.sprites:getHeight()
+        newPlayer.sy = newPlayer.size.y / newPlayer.graphics.sprites:getHeight() * newPlayer.yratio
+        newPlayer.shape = config.shape or {
+          x = newPlayer.x,
+          y = newPlayer.y - newPlayer.size.y/4,
+          size = {
+            x = newPlayer.size.x - newPlayer.size.x/10,
+            y = newPlayer.size.y * newPlayer.yratio - newPlayer.size.y/4
+          }
+        }
+
         newPlayer.graphics.grid = game.animation.newGrid(
             newPlayer.size.x, newPlayer.size.y,
             newPlayer.graphics.sprites:getWidth(),
@@ -146,8 +148,10 @@ function Player:update(dt)
 
     self.y = self.y + dy
     self.x = self.x + dx
-    self.shape.y = self.shape.y + dy
-    self.shape.x = self.shape.x + dx
+    if self.shape then
+      self.shape.y = self.shape.y + dy
+      self.shape.x = self.shape.x + dx
+    end
 
     if self.graphics.animation ~= nil then
         if dy ~= 0 or dx ~= 0  then

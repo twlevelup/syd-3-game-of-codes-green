@@ -130,6 +130,14 @@ describe("Player", function()
 
             it("should move its shape the same amount as it moves", function()
                 local player = Player:new(mock_input('up'))
+                player.shape = {
+                  x = player.x,
+                  y = player.y,
+                  size = {
+                    x = player.size.x,
+                    y = player.size.y
+                  }
+                }
                 orig = {x = player.x, y = player.y}
                 orig.shape = {x = player.shape.x, y = player.shape.y}
 

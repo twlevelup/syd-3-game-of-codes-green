@@ -28,6 +28,14 @@ describe("Asteroid", function()
 
     it("should move its shape the same amount as it moves", function()
       local asteroid = Asteroid:new({})
+      asteroid.shape = {
+        x = asteroid.x,
+        y = asteroid.y,
+        size = {
+          x = asteroid.size.x,
+          y = asteroid.size.y
+        }
+      }
       local orig = {x = asteroid.x, y = asteroid.y}
       orig.shape = {x = asteroid.shape.x, y = asteroid.shape.y}
 
