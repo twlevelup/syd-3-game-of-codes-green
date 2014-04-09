@@ -118,65 +118,33 @@ describe("Player", function()
         end)
 
         describe("collide", function()
-            local player, collidingEntity
+            it("should end the game when colliding with an asteroid", function()
+                local player = Player:new({})
+                local asteroid = Asteroid:new({})
+                game = mock_game()
 
-            before_each(function()
-                player = Player:new({})
-                player.size = {
-                    x = 10,
-                    y = 10
+                player:collide(asteroid)
+
+                assert.spy(game.gameover).was.called(1)
+            end)
+
+            it("should move its shape the same amount as it moves", function()
+                local player = Player:new(mock_input('up'))
+                player.shape = {
+                  x = player.x,
+                  y = player.y,
+                  size = {
+                    x = player.size.x,
+                    y = player.size.y
+                  }
                 }
-                player.x = 20
-                player.y = 10
-                player.graphics.animation = mock_animation()
+                orig = {x = player.x, y = player.y}
+                orig.shape = {x = player.shape.x, y = player.shape.y}
 
-                collidingEntity = Entity:new({})
-                collidingEntity.x = 10
-                collidingEntity.y = 10
-                collidingEntity.size = {
-                    x = 10,
-                    y = 10
-                }
-            end)
+                player:update(1)
 
-            it("should end the game when colliding with an asteroid on the left side", function()
-                player.lastPosition = {x = 21, y = 10}
-                collidingEntity.type = 'asteroid'
-                game = mock_game()
-
-                player:collide(collidingEntity)
-
-                assert.spy(game.gameover).was.called()
-            end)
-
-            it("should end the game when colliding with an asteroid on the right side", function()
-                player.lastPosition = {x = 9, y = 10}
-                collidingEntity.type = 'asteroid'
-                game = mock_game()
-
-                player:collide(collidingEntity)
-
-                assert.spy(game.gameover).was.called()
-            end)
-
-            it("should end the game when colliding with an asteroid on the top side", function()
-                player.lastPosition = {x = 10, y = 11}
-                collidingEntity.type = 'asteroid'
-                game = mock_game()
-
-                player:collide(collidingEntity)
-
-                assert.spy(game.gameover).was.called()
-            end)
-
-            it("should end the game when colliding with an asteroid on the bottom side", function()
-                player.lastPosition = {x = 10, y = 9}
-                collidingEntity.type = 'asteroid'
-                game = mock_game()
-
-                player:collide(collidingEntity)
-
-                assert.spy(game.gameover).was.called()
+                assert.is.equal(orig.x - player.x, orig.shape.x - player.shape.x)
+                assert.is.equal(orig.y - player.y, orig.shape.y - player.shape.y)
             end)
         end)
 
@@ -209,23 +177,23 @@ describe("Player", function()
                 assert.is.equal(orig_y + player.speed, player.y)
             end)
 
-            it("should not decrement the player's x if the left-arrow is pressed", function()
+            it("should decrement the player's x if the left-arrow is pressed", function()
                 local player = Player:new(mock_input('left'))
                 player.graphics.animation = mock_animation()
                 local orig_x = player.x
 
                 player:update(dt)
 
-                assert.is.equal(orig_x, player.x)
+                assert.is.equal(orig_x - player.speed, player.x)
             end)
 
-            it("should not increment the player's x if the right-arrow is pressed", function()
+            it("should increment the player's x if the right-arrow is pressed", function()
                 local player = Player:new(mock_input('right'))
                 local orig_x = player.x
 
                 player:update(dt)
 
-                assert.is.equal(orig_x, player.x)
+                assert.is.equal(orig_x + player.speed, player.x)
             end)
 
             it("should not run off the top of the screen", function ()
@@ -263,6 +231,6 @@ describe("Player", function()
                 assert.is.equal(0, player.score)
             end)
         end)
-    
+
     end)
 end)

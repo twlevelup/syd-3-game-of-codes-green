@@ -19,7 +19,7 @@ function Player:new(game, config)
     newPlayer.score = config.score or 0
     newPlayer.size = config.size or {
         x = 150,
-        y = 150
+        y = 120 
     }
 
     newPlayer.speed = config.speed or 5
@@ -73,10 +73,38 @@ function Player:new(game, config)
     return setmetatable(newPlayer, self)
 end
 
+function Player:updatescore(points)
+    self.score = self.score + points
+end
+
 function Player:collide(other)
     if other.type == 'asteroid' then
         game:gameover()
     end
+end
+
+function collideBetween(object1, object2)
+    local my_left_overlaps_their_right = object1.left <= object2.right and object1.right >= object2.right
+    local my_right_overlaps_their_left = object1.right >= object2.left and object1.left <= object2.left
+
+    local my_top_overlaps_their_bottom = object1.top <= object2.bottom and object1.bottom >= object2.bottom
+    local my_bottom_overlaps_their_top = object1.bottom >= object2.top and object1.top <= object2.top
+    
+    return (my_left_overlaps_their_right or my_right_overlaps_their_left) and
+             (my_top_overlaps_their_bottom or my_bottom_overlaps_their_top)
+end
+
+function Player:collidingWith(other)
+    local bounds = self:bounds()
+    local other = other:bounds()
+    local safetyZone1 = { left = self.x, right = self.x + self.size.x*0.26, top = self.y, bottom = self.y + self.size.y*0.47 }
+    local safetyZone2 = { left = self.x + self.size.x*0.26, right = self.x + self.size.x*0.26 + self.size.x*0.1, top = self.y, bottom = self.y + self.size.y*0.2 }
+    local safetyZone3 = { left = self.x + self.size.x*0.36, right = self.x + self.size.x*0.36 + self.size.x*0.22, top = self.y, bottom = self.y + self.size.y*0.28 }
+    local safetyZone4 = { left = self.x, right = self.x + self.size.x*0.18, top = self.y + self.size.y - self.size.y*0.15, bottom = self.y + self.size.y}
+    local safetyZone5 = { left = self.x + self.size.x - self.size.x*0.25, right = self.x + self.size.x, top = self.y + self.size.y - self.size.y*0.21, bottom = self.y + self.size.y}
+    return collideBetween(bounds,other) and not collideBetween(safetyZone1,other)
+        and not collideBetween(safetyZone2,other) and not collideBetween(safetyZone3,other)
+        and not collideBetween(safetyZone4,other) and not collideBetween(safetyZone5,other)
 end
 
 function Player:update(dt)
@@ -158,4 +186,13 @@ end
 
 function Player:draw()
   self.game.graphics.draw(self.graphics.sprites, self.x, self.y, self.angle, self.sx, self.sy)
+  if DEBUG_MODE then
+      self.game.graphics.rectangle("line", self.x, self.y, self.size.x, self.size.y)
+      self.game.graphics.rectangle("line", self.x, self.y, self.size.x*0.26, self.size.y*0.47)
+      self.game.graphics.rectangle("line", self.x + self.size.x*0.26, self.y, self.size.x*0.1, self.size.y*0.2)
+      self.game.graphics.rectangle("line", self.x + self.size.x*0.36, self.y, self.size.x*0.22, self.size.y*0.28)
+      self.game.graphics.rectangle("line", self.x, self.y + self.size.y - self.size.y*0.15, self.size.x*0.18, self.size.y*0.15)
+      self.game.graphics.rectangle("line", self.x + self.size.x - self.size.x*0.25, self.y + self.size.y - self.size.y*0.21, self.size.x*0.25, self.size.y*0.21)
+  end
+  love.graphics.printf("Score: " .. self.score, love.window.getWidth() * 0.80, love.window.getHeight() * 0.015, 400, "left", 0, 1, 1.5)
 end

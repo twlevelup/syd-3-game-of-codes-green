@@ -1,6 +1,4 @@
-love.state = require 'vendor/gamestate'
-
-game = love.state.new()
+game = {}
 
 function game:enter()
     -- create entitites
@@ -32,7 +30,8 @@ function game:enter()
     table.insert(self.entities, self.purple_cow)
 
     -- add the Asteroids
-    timer.addPeriodic(1, function()
+    self.timer = timer.new()
+    self.timer:addPeriodic(1, function()
         table.insert(self.entities, Asteroid:new(love, {to = {x = 0, y = math.random(0, 600)}}))
     end)
 
@@ -58,6 +57,7 @@ function game:update(dt)
             end
         end
     end
+    self.timer:update(dt)
 end
 
 function game:draw()
@@ -65,11 +65,18 @@ function game:draw()
     for _, e in pairs(self.entities) do
         e:draw()
     end
+    love.graphics.printf("--Press \"Space\" to Pause--", love.window.getWidth() * 0.25, love.window.getHeight() * 0.95, 400, "center", 0, 1, 1.5)
+end
+
+function game:keyreleased(key)
+    if key == ' ' then
+        love.state.push(Pause)
+    end
 end
 
 function game:leave()
     love.audio.stop()
-    timer.clear()
+    self.timer:clear()
 end
 
 function game:gameover()

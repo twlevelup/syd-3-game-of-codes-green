@@ -13,6 +13,7 @@ timer = require 'vendor/timer'
 -- Game States
 require 'game'
 require 'scoreboard'
+require 'pause'
 
 function love.load()
     print("Version: " .. version)
@@ -28,8 +29,6 @@ function love.load()
 end
 
 function love.update(dt)
-    love.state.update(dt)
-    timer.update(dt)
 end
 
 function love.draw()
