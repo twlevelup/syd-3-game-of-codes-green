@@ -224,11 +224,27 @@ describe("Player", function()
             end)
         end)
 
-        describe("Score", function()
+        describe("Updatescore", function()
             it("should start with 0", function()
                 local player = Player:new({})
 
                 assert.is.equal(0, player.score)
+            end)
+
+            it("should increment by 1", function()
+                local player = Player:new({})
+
+                player:updatescore(1)
+
+                assert.is.equal(1, player.score)
+            end)
+
+            it("should increment by 25", function()
+                local player = Player:new({})
+
+                player:updatescore(25)
+
+                assert.is.equal(25, player.score)
             end)
         end)
 

@@ -34,6 +34,9 @@ function game:enter()
     self.timer:addPeriodic(1, function()
         table.insert(self.entities, Asteroid:new(love, {to = {x = 0, y = math.random(0, 600)}}))
     end)
+    self.timer:addPeriodic(0.2, function()
+        self.player:updatescore(1)
+    end)
 
     -- play background music
     game:playmusic("assets/sounds/Game_Background.mp3")
