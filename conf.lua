@@ -6,7 +6,7 @@ DEBUG_MODE = true
 -- options and defaults.
 
 function love.conf(config)
-    config.title = "Nyancat to the rescue"
+    config.title = "SpaceCowBoy to the rescue"
     config.modules.joystick = false
     config.modules.mouse = false
     config.modules.physics = false
