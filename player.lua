@@ -162,6 +162,12 @@ function Player:update(dt)
 
     self.y = self.y + dy
     self.x = self.x + dx
+    if self.shape then
+      self.shape.y = self.shape.y + dy
+      self.shape.x = self.shape.x + dx
+    end
+
+
 
     if self.graphics.animation ~= nil then
         if dy ~= 0 or dx ~= 0  then
