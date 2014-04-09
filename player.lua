@@ -102,9 +102,12 @@ function Player:collidingWith(other)
     local safetyZone3 = { left = self.x + self.size.x*0.36, right = self.x + self.size.x*0.36 + self.size.x*0.22, top = self.y, bottom = self.y + self.size.y*0.28 }
     local safetyZone4 = { left = self.x, right = self.x + self.size.x*0.18, top = self.y + self.size.y - self.size.y*0.15, bottom = self.y + self.size.y}
     local safetyZone5 = { left = self.x + self.size.x - self.size.x*0.25, right = self.x + self.size.x, top = self.y + self.size.y - self.size.y*0.21, bottom = self.y + self.size.y}
+    local safetyZone6 = { left = self.x + self.size.x - self.size.x*0.29, right = self.x + self.size.x, top = self.y, bottom = self.y + self.size.y*0.5}
+
     return collideBetween(bounds,other) and not collideBetween(safetyZone1,other)
         and not collideBetween(safetyZone2,other) and not collideBetween(safetyZone3,other)
         and not collideBetween(safetyZone4,other) and not collideBetween(safetyZone5,other)
+        and not collideBetween(safetyZone6,other)
 end
 
 function Player:update(dt)
@@ -162,6 +165,12 @@ function Player:update(dt)
 
     self.y = self.y + dy
     self.x = self.x + dx
+    if self.shape then
+      self.shape.y = self.shape.y + dy
+      self.shape.x = self.shape.x + dx
+    end
+
+
 
     if self.graphics.animation ~= nil then
         if dy ~= 0 or dx ~= 0  then
@@ -193,6 +202,7 @@ function Player:draw()
       self.game.graphics.rectangle("line", self.x + self.size.x*0.36, self.y, self.size.x*0.22, self.size.y*0.28)
       self.game.graphics.rectangle("line", self.x, self.y + self.size.y - self.size.y*0.15, self.size.x*0.18, self.size.y*0.15)
       self.game.graphics.rectangle("line", self.x + self.size.x - self.size.x*0.25, self.y + self.size.y - self.size.y*0.21, self.size.x*0.25, self.size.y*0.21)
+      self.game.graphics.rectangle("line", self.x + self.size.x - self.size.x*0.29, self.y, self.size.x*0.29, self.size.y*0.5)
   end
   love.graphics.printf("Score: " .. self.score, love.window.getWidth() * 0.80, love.window.getHeight() * 0.015, 400, "left", 0, 1, 1.5)
 end
