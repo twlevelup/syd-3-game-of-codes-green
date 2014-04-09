@@ -10,4 +10,5 @@ function love.conf(config)
     config.modules.joystick = false
     config.modules.mouse = false
     config.modules.physics = false
+    love.filesystem.setIdentity("space_cow")
 end
