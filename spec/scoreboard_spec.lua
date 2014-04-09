@@ -10,11 +10,12 @@ describe("Scorboard", function()
           getWidth = spy.new(function() return 800 end),
           getHeight = spy.new(function() return 600 end)
         }
-        
+
         love.graphics = {
           setColor = spy.new(function() end),
           rectangle = spy.new(function() end),
-          printf = spy.new(function() end)
+          printf = spy.new(function() end),
+          print = spy.new(function() end)
         }
 
         love.filesystem = {
@@ -29,25 +30,25 @@ describe("Scorboard", function()
     end)
 
     describe("#comparescore", function()
-      it("should return 10 scores", function()        
+      it("should return 10 scores", function()
         local result = comparescore(top_scores, 0)
 
         assert.is.equal(10, #result)
       end)
 
-      it("should should put 40 at 1st place", function()        
+      it("should should put 40 at 1st place", function()
         local result = comparescore(top_scores, 40)
 
         assert.is.equal(40, result[1])
       end)
 
-      it("should should put 10 at 4th place", function()        
+      it("should should put 10 at 4th place", function()
         local result = comparescore(top_scores, 10)
 
         assert.is.equal(10, result[4])
       end)
 
-      it("should should not put 1 in top scores", function()        
+      it("should should not put 1 in top scores", function()
         local result = comparescore(top_scores, 1)
 
         assert.are.same(top_scores, result)
@@ -77,7 +78,8 @@ describe("Scorboard", function()
           assert.spy(love.filesystem.write).was.called(1)
           assert.spy(love.graphics.setColor).was.called(2)
           assert.spy(love.graphics.rectangle).was.called(1)
-          assert.spy(love.graphics.printf).was.called(14)
+          assert.spy(love.graphics.printf).was.called(3)
+          assert.spy(love.graphics.print).was.called(10)
         end)
       end)
     end)

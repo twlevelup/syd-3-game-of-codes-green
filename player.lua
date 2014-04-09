@@ -19,7 +19,7 @@ function Player:new(game, config)
     newPlayer.score = config.score or 0
     newPlayer.size = config.size or {
         x = 150,
-        y = 120 
+        y = 120
     }
 
     newPlayer.speed = config.speed or 5
@@ -89,7 +89,7 @@ function collideBetween(object1, object2)
 
     local my_top_overlaps_their_bottom = object1.top <= object2.bottom and object1.bottom >= object2.bottom
     local my_bottom_overlaps_their_top = object1.bottom >= object2.top and object1.top <= object2.top
-    
+
     return (my_left_overlaps_their_right or my_right_overlaps_their_left) and
              (my_top_overlaps_their_bottom or my_bottom_overlaps_their_top)
 end
@@ -141,18 +141,6 @@ function Player:update(dt)
           dy = dy + self.speed
         end
     end
-
-    -- if self.game.input.pressed(self.keys.left) then
-    --     if (canMoveLeft()) then
-    --       dx = dx - self.speed
-    --     end
-    -- end
-
-    -- if self.game.input.pressed(self.keys.right) then
-    --     if (canMoveRight()) then
-    --       dx = dx + self.speed
-    --     end
-    -- end
 
     if self.game.input.pressed(self.keys.shoot) then
         self.shoot()

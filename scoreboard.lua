@@ -25,7 +25,7 @@ end
 
 function Scoreboard:enter(game, score)
   Scoreboard.x = love.window.getWidth() * 0.2
-  Scoreboard.y = love.window.getHeight() * 0.1 
+  Scoreboard.y = love.window.getHeight() * 0.1
   Scoreboard.width = love.window.getWidth() * 0.6
   Scoreboard.height = love.window.getHeight() * 0.8
 
@@ -42,7 +42,7 @@ function Scoreboard:enter(game, score)
       print ("pos", _index, top_scores[_index])
     end)
   end
-  
+
 end
 
 function Scoreboard:update(dt)
@@ -54,23 +54,18 @@ function Scoreboard:draw()
   love.graphics.rectangle("fill", Scoreboard.x, Scoreboard.y, Scoreboard.width, Scoreboard.height)
   love.graphics.setColor(255,255,255)
   love.graphics.printf("#### Game Over ####", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET, LINE_LIMIT, "center", 0, 1, 1.5)
-  love.graphics.printf("Press \"Space\" to start again   ||   Press \"Esc\" to exit the game", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 2, LINE_LIMIT, "center") 
+  love.graphics.printf("Press \"Space\" to start again   ||   Press \"Esc\" to exit the game", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 2, LINE_LIMIT, "center")
   love.graphics.printf("** Top 10 Scores **", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 5, LINE_LIMIT, "center")
 
   local width = string.len(top_scores[1]) + 2
-  table.foreach(top_scores, function(_index) 
+  table.foreach(top_scores, function(_index)
       local text= string.format("%" .. width-1 .. "s","#" .._index) .. "   ----   " .. string.format("%-" .. width .. "s",top_scores[_index])
-      -- love.graphics.printf( text, 
-      --                         love.window.getWidth() * 0.25, 
-      --                         Scoreboard.y + (HEADING_OFFSET * 5.5) + (LINE_OFFSET * _index), 
-      --                         LINE_LIMIT, 
-      --                         "center")
       love.graphics.print(text, center(text), Scoreboard.y + (HEADING_OFFSET * 5.5) + (LINE_OFFSET * _index))
   end)
 end
 
 function center(text,number_limit)
-    return (love.graphics.getWidth()*0.9/2)-(text:len())/2
+    return (love.window.getWidth()*0.9/2)-(text:len())/2
 end
 
 function Scoreboard:keyreleased(key)
