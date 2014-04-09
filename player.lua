@@ -142,17 +142,17 @@ function Player:update(dt)
         end
     end
 
-    if self.game.input.pressed(self.keys.left) then
-        if (canMoveLeft()) then
-          dx = dx - self.speed
-        end
-    end
+    -- if self.game.input.pressed(self.keys.left) then
+    --     if (canMoveLeft()) then
+    --       dx = dx - self.speed
+    --     end
+    -- end
 
-    if self.game.input.pressed(self.keys.right) then
-        if (canMoveRight()) then
-          dx = dx + self.speed
-        end
-    end
+    -- if self.game.input.pressed(self.keys.right) then
+    --     if (canMoveRight()) then
+    --       dx = dx + self.speed
+    --     end
+    -- end
 
     if self.game.input.pressed(self.keys.shoot) then
         self.shoot()
