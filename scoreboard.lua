@@ -54,17 +54,23 @@ function Scoreboard:draw()
   love.graphics.rectangle("fill", Scoreboard.x, Scoreboard.y, Scoreboard.width, Scoreboard.height)
   love.graphics.setColor(255,255,255)
   love.graphics.printf("#### Game Over ####", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET, LINE_LIMIT, "center", 0, 1, 1.5)
-  love.graphics.printf("Press \"Space\" to start again", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 2, LINE_LIMIT, "center")  
-  love.graphics.printf("Press \"Esc\" to exit the game", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 3, LINE_LIMIT, "center")  
+  love.graphics.printf("Press \"Space\" to start again   ||   Press \"Esc\" to exit the game", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 2, LINE_LIMIT, "center") 
   love.graphics.printf("** Top 10 Scores **", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 5, LINE_LIMIT, "center")
 
-  table.foreach(top_scores, function(_index)
-      love.graphics.printf("#" .. _index .. " ---- \t" .. top_scores[_index], 
-                              love.window.getWidth() * 0.25, 
-                              Scoreboard.y + (HEADING_OFFSET * 5.5) + (LINE_OFFSET * _index), 
-                              LINE_LIMIT, 
-                              "center")
+  local width = string.len(top_scores[1]) + 2
+  table.foreach(top_scores, function(_index) 
+      local text= string.format("%" .. width-1 .. "s","#" .._index) .. "   ----   " .. string.format("%-" .. width .. "s",top_scores[_index])
+      -- love.graphics.printf( text, 
+      --                         love.window.getWidth() * 0.25, 
+      --                         Scoreboard.y + (HEADING_OFFSET * 5.5) + (LINE_OFFSET * _index), 
+      --                         LINE_LIMIT, 
+      --                         "center")
+      love.graphics.print(text, center(text), Scoreboard.y + (HEADING_OFFSET * 5.5) + (LINE_OFFSET * _index))
   end)
+end
+
+function center(text,number_limit)
+    return (love.graphics.getWidth()*0.9/2)-(text:len())/2
 end
 
 function Scoreboard:keyreleased(key)
