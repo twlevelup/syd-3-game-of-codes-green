@@ -19,12 +19,21 @@ function Entity:draw()
 end
 
 function Entity:bounds()
-    return {
+    if self.shape then
+      return {
+        top = self.shape.y,
+        left = self.shape.x,
+        bottom = self.shape.y + self.shape.size.y,
+        right = self.shape.x + self.shape.size.x
+      }
+    else
+      return {
         top = self.y,
         left = self.x,
         bottom = self.y + self.size.y,
         right = self.x + self.size.x
-    }
+      }
+    end
 end
 
 function Entity:collidingWith(other)
