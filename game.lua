@@ -69,6 +69,11 @@ function game:draw()
         e:draw()
     end
     love.graphics.printf("--Press \"Space\" to Pause--", love.window.getWidth() * 0.25, love.window.getHeight() * 0.95, 400, "center", 0, 1, 1.5)
+
+    if DEBUG_MODE then
+        love.graphics.print("FPS: "..love.timer.getFPS(), 10, love.window.getHeight() - 20)
+        love.graphics.print(string.format("Time per frame: %.3f ms", 1000 * love.timer.getAverageDelta()), 10, love.window.getHeight() - 40)
+    end
 end
 
 function game:keyreleased(key)
