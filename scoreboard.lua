@@ -28,6 +28,7 @@ function Scoreboard:enter(game, score)
   Scoreboard.y = love.window.getHeight() * 0.1
   Scoreboard.width = love.window.getWidth() * 0.6
   Scoreboard.height = love.window.getHeight() * 0.8
+  Scoreboard.player_score = score
 
   if love.filesystem.exists("score.txt") == false then
       love.filesystem.write("score.txt", json.encode(default_score))
@@ -53,19 +54,21 @@ function Scoreboard:draw()
   love.graphics.setColor(56,57,59)
   love.graphics.rectangle("fill", Scoreboard.x, Scoreboard.y, Scoreboard.width, Scoreboard.height)
   love.graphics.setColor(255,255,255)
-  love.graphics.printf("#### Game Over ####", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET, LINE_LIMIT, "center", 0, 1, 1.5)
-  love.graphics.printf("Press \"Space\" to start again   ||   Press \"Esc\" to exit the game", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 2, LINE_LIMIT, "center")
-  love.graphics.printf("** Top 10 Scores **", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 5, LINE_LIMIT, "center")
+  love.graphics.printf("#### Game Over ####", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET, LINE_LIMIT, "center", 0, 1, 1.25)
+  love.graphics.printf("You scored: " .. Scoreboard.player_score, love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 2, LINE_LIMIT, "center")
 
-  local width = string.len(top_scores[1]) + 2
+  love.graphics.printf("Press \"Space\" to start again", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 3, LINE_LIMIT, "center")
+  love.graphics.printf("Press \"Esc\" to exit the game", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 3 + LINE_OFFSET, LINE_LIMIT, "center")
+
+  love.graphics.printf("** Top 10 Scores **", love.window.getWidth() * 0.25, Scoreboard.y + HEADING_OFFSET * 5, LINE_LIMIT, "center", 0, 1, 1.25)
+
   table.foreach(top_scores, function(_index)
-      local text= string.format("%" .. width-1 .. "s","#" .._index) .. "   ----   " .. string.format("%-" .. width .. "s",top_scores[_index])
-      love.graphics.print(text, center(text), Scoreboard.y + (HEADING_OFFSET * 5.5) + (LINE_OFFSET * _index))
+  love.graphics.printf("#" .. _index .. " ---- \t" .. top_scores[_index],
+                          love.window.getWidth() * 0.25,
+                          Scoreboard.y + (HEADING_OFFSET * 5.5) + (LINE_OFFSET * _index),
+                          LINE_LIMIT,
+                          "center")
   end)
-end
-
-function center(text,number_limit)
-    return (love.window.getWidth()*0.9/2)-(text:len())/2
 end
 
 function Scoreboard:keyreleased(key)
