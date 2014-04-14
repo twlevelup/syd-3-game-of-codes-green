@@ -25,6 +25,7 @@ function game:enter()
     -- create table for ??
     table.insert(self.entities, self.player)
     table.insert(self.entities, self.asteroid)
+    table.insert(self.entities, self.purple_cow)
     table.insert(self.entities, self.fuel_tank)
 
     -- add the Asteroids
@@ -32,6 +33,11 @@ function game:enter()
     self.timer:addPeriodic(1, function()
         table.insert(self.entities, Asteroid:new(love))
     end)
+
+    self.timer:addPeriodic(5, function()
+      table.insert(self.entities, PurpleCow:new(love))
+    end)
+
     self.timer:addPeriodic(0.2, function()
         self.player:updatescore(1)
     end)
