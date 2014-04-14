@@ -21,13 +21,11 @@ function game:enter()
 
     -- create new stage
     self.stage = Stage:new(love, {x = 0, y = 0, backgroundImage = "assets/images/space.jpg"})
-    self.purple_cow = Purple_Cow:new(love)
 
     -- create table for ??
     table.insert(self.entities, self.player)
     table.insert(self.entities, self.asteroid)
     table.insert(self.entities, self.fuel_tank)
-    table.insert(self.entities, self.purple_cow)
 
     -- add the Asteroids
     self.timer = timer.new()
@@ -39,7 +37,7 @@ function game:enter()
     end)
 
     -- play background music
-    game:playmusic("assets/sounds/Game_Background.mp3")
+    -- game:playmusic("assets/sounds/Game_Background.mp3")
 end
 
 function game:playmusic(song)
