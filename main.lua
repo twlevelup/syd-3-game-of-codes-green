@@ -5,6 +5,7 @@ require 'fuel_tank'
 require 'stage'
 require 'asteroid'
 require 'purple_cow'
+require 'bullet'
 
 love.animation = require 'vendor/anim8'
 love.state = require 'vendor/gamestate'

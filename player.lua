@@ -22,6 +22,7 @@ function Player:new(game, config)
         x = 150,
         y = 120
     }
+    newPlayer.isshooting = false
 
     newPlayer.speed = config.speed or 5
 
@@ -131,8 +132,11 @@ function Player:update(dt)
         end
     end
 
-    if self.game.input.pressed(self.keys.shoot) then
-        self.shoot()
+    if self.game.input.pressed(self.keys.shoot) and not self.isshooting then
+        self:shoot()
+        self.isshooting = true
+    elseif not self.game.input.pressed(self.keys.shoot) then
+        self.isshooting = false
     end
 
     self.lastPosition = {
@@ -166,6 +170,7 @@ function Player:update(dt)
 end
 
 function Player:shoot()
+    table.insert(game.entities, Bullet:new(love, {x = self.x, y=self.y, x2=self.x+100, y2=self.y}))
 end
 
 function Player:draw()

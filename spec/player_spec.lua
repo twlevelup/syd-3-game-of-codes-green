@@ -137,6 +137,16 @@ describe("Player", function()
                 player:update(1)
                 assert.spy(player.shoot).was.called(1)
             end)
+
+            it('should only shoot one bullet per keypress', function()
+                local player = Player:new(mock_input('z'))
+                player.shoot = spy.new(function() end)
+
+                player:update(1)
+                player:update(1)
+
+                assert.spy(player.shoot).was.called(1)
+            end)
         end)
 
         describe("player movement", function()
