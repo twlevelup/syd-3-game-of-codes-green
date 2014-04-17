@@ -11,7 +11,7 @@ love.state = require 'vendor/gamestate'
 timer = require 'vendor/timer'
 
 -- Game States
-require 'game'
+require 'runner'
 require 'scoreboard'
 require 'pause'
 
@@ -25,12 +25,11 @@ function love.load()
     love.input.bind('z','z')
 
     love.state.registerEvents()
-    love.state.switch(game)
+    love.state.switch(Runner)
 end
 
 function love.update(dt)
 end
 
 function love.draw()
-    game:draw()
 end

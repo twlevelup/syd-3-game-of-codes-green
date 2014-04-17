@@ -74,7 +74,7 @@ end
 function Scoreboard:keyreleased(key)
 
   if key == ' ' then
-    love.state.switch(game)
+    love.state.switch(Runner)
   elseif key == "escape" then
     love.event.quit()
   end

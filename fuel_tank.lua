@@ -41,7 +41,7 @@ function Fuel_tank:update(dt)
     end
 
     if self:is_empty() then
-        game:gameover()
+        Runner:gameover()
     end
 end
 

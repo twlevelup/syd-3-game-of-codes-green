@@ -1,6 +1,6 @@
-game = {}
+Runner = {}
 
-function game:enter()
+function Runner:enter()
     -- create entitites
     self.entities = {}
 
@@ -43,16 +43,16 @@ function game:enter()
     end)
 
     -- play background music
-    -- game:playmusic("assets/sounds/Game_Background.mp3")
+    -- Runner:playmusic("assets/sounds/Game_Background.mp3")
 end
 
-function game:playmusic(song)
+function Runner:playmusic(song)
     bgm = love.audio.newSource(song)
     bgm:setLooping(true)
     bgm:play()
 end
 
-function game:update(dt)
+function Runner:update(dt)
     self.stage:update(dt)
     for _, entity in pairs(self.entities) do
         entity:update(dt)
@@ -67,7 +67,7 @@ function game:update(dt)
     self.timer:update(dt)
 end
 
-function game:draw()
+function Runner:draw()
     self.stage:draw()
     for _, e in pairs(self.entities) do
         e:draw()
@@ -80,17 +80,17 @@ function game:draw()
     end
 end
 
-function game:keyreleased(key)
+function Runner:keyreleased(key)
     if key == ' ' then
         love.state.push(Pause)
     end
 end
 
-function game:leave()
+function Runner:leave()
     love.audio.stop()
     self.timer:clear()
 end
 
-function game:gameover()
+function Runner:gameover()
     love.state.switch(Scoreboard, self.player.score)
 end

@@ -121,11 +121,11 @@ describe("Player", function()
             it("should end the game when colliding with an asteroid", function()
                 local player = Player:new({})
                 local asteroid = Asteroid:new({})
-                game = mock_game()
+                Runner.gameover = spy.new(function() end)
 
                 player:collide(asteroid)
 
-                assert.spy(game.gameover).was.called(1)
+                assert.spy(Runner.gameover).was.called(1)
             end)
 
             it("should move its shape the same amount as it moves", function()
