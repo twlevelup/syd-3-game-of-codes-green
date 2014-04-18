@@ -26,9 +26,9 @@ describe("Asteroid", function()
       assert.is.equal(asteroid.y, 10)
     end)
 
-    it("should move its shape the same amount as it moves", function()
+    it("should move its bounding box the same amount as it moves", function()
       local asteroid = Asteroid:new({})
-      asteroid.shape = {
+      asteroid.bbox = {
         x = asteroid.x,
         y = asteroid.y,
         size = {
@@ -37,14 +37,14 @@ describe("Asteroid", function()
         }
       }
       local orig = {x = asteroid.x, y = asteroid.y}
-      orig.shape = {x = asteroid.shape.x, y = asteroid.shape.y}
+      orig.bbox = {x = asteroid.bbox.x, y = asteroid.bbox.y}
 
       asteroid:update(1)
 
       -- floating-point numbers can look equal but aren't equal
       local epsilon = 1e-10
-      local diffx = math.abs((orig.x - asteroid.x) - (orig.shape.x - asteroid.shape.x))
-      local diffy = math.abs((orig.y - asteroid.y) - (orig.shape.y - asteroid.shape.y))
+      local diffx = math.abs((orig.x - asteroid.x) - (orig.bbox.x - asteroid.bbox.x))
+      local diffy = math.abs((orig.y - asteroid.y) - (orig.bbox.y - asteroid.bbox.y))
       assert.is_true(diffx <= epsilon)
       assert.is_true(diffy <= epsilon)
     end)

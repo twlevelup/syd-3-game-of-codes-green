@@ -153,9 +153,9 @@ function Player:update(dt)
 
     self.y = self.y + dy
     self.x = self.x + dx
-    if self.shape then
-      self.shape.y = self.shape.y + dy
-      self.shape.x = self.shape.x + dx
+    if self.bbox then
+      self.bbox.y = self.bbox.y + dy
+      self.bbox.x = self.bbox.x + dx
     end
 
 

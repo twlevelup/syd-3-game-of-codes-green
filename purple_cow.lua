@@ -34,7 +34,7 @@ function PurpleCow.init()
       new_purple_cow.xratio = (new_purple_cow.graphics.sprites:getWidth() / new_purple_cow.graphics.sprites:getHeight())
       new_purple_cow.sx = new_purple_cow.size.x / new_purple_cow.graphics.sprites:getWidth()
       new_purple_cow.sy = new_purple_cow.size.y / new_purple_cow.graphics.sprites:getHeight() * new_purple_cow.yratio
-      new_purple_cow.shape = config.shape or {
+      new_purple_cow.bbox = config.bbox or {
         x = new_purple_cow.x,
         y = new_purple_cow.y + new_purple_cow.size.y*0.25,
         size = {x = new_purple_cow.size.x*0.75, y = new_purple_cow.size.y*0.75}
@@ -61,15 +61,15 @@ PurpleCow.new = PurpleCow.init()
 function PurpleCow:update(dt)
   self.x = self.x - self.dx * dt
   self.y = self.y - self.dy * dt + 4 * math.cos(self.x / 100)
-  if self.shape then
-    self.shape.x = self.shape.x - self.dx * dt
-    self.shape.y = self.shape.y - self.dy * dt + 4 * math.cos(self.x / 100)
+  if self.bbox then
+    self.bbox.x = self.bbox.x - self.dx * dt
+    self.bbox.y = self.bbox.y - self.dy * dt + 4 * math.cos(self.x / 100)
   end
 end
 
 function PurpleCow:draw()
   self.game.graphics.draw(self.graphics.sprites, self.x, self.y, 0, self.sx, self.sy)
   if DEBUG_MODE then
-      self.game.graphics.rectangle("line", self.shape.x, self.shape.y, self.shape.size.x, self.shape.size.y)
+      self.game.graphics.rectangle("line", self.bbox.x, self.bbox.y, self.bbox.size.x, self.bbox.size.y)
   end
 end

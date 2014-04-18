@@ -35,7 +35,7 @@ function Asteroid.init()
       newAsteroid.xratio = (newAsteroid.graphics.sprites:getWidth() / newAsteroid.graphics.sprites:getHeight())
       newAsteroid.sx = newAsteroid.size.x / newAsteroid.graphics.sprites:getWidth()
       newAsteroid.sy = newAsteroid.size.y / newAsteroid.graphics.sprites:getHeight() * newAsteroid.yratio
-      newAsteroid.shape = config.shape or {
+      newAsteroid.bbox = config.bbox or {
         x = newAsteroid.x,
         y = newAsteroid.y + newAsteroid.size.y*0.25,
         size = {x = newAsteroid.size.x*0.75, y = newAsteroid.size.y*0.75}
@@ -62,15 +62,15 @@ Asteroid.new = Asteroid.init()
 function Asteroid:update(dt)
   self.x = self.x - self.dx * dt
   self.y = self.y - self.dy * dt
-  if self.shape then
-    self.shape.x = self.shape.x - self.dx * dt
-    self.shape.y = self.shape.y - self.dy * dt
+  if self.bbox then
+    self.bbox.x = self.bbox.x - self.dx * dt
+    self.bbox.y = self.bbox.y - self.dy * dt
   end
 end
 
 function Asteroid:draw()
   self.game.graphics.draw(self.graphics.sprites, self.x, self.y, 0, self.sx, self.sy)
   if DEBUG_MODE then
-      self.game.graphics.rectangle("line", self.shape.x, self.shape.y, self.shape.size.x, self.shape.size.y)
+      self.game.graphics.rectangle("line", self.bbox.x, self.bbox.y, self.bbox.size.x, self.bbox.size.y)
   end
 end

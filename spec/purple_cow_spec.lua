@@ -21,9 +21,9 @@ describe("Purple Cow", function()
     end)
 
 
-    it("should move its shape the same amount as it moves", function()
+    it("should move its bbox the same amount as it moves", function()
       local cow = PurpleCow:new({})
-      cow.shape = {
+      cow.bbox = {
         x = cow.x,
         y = cow.y,
         size = {
@@ -32,14 +32,14 @@ describe("Purple Cow", function()
         }
       }
       local orig = {x = cow.x, y = cow.y}
-      orig.shape = {x = cow.shape.x, y = cow.shape.y}
+      orig.bbox = {x = cow.bbox.x, y = cow.bbox.y}
 
       cow:update(1)
 
       -- floating-point numbers can look equal but aren't equal
       local epsilon = 1e-10
-      local diffx = math.abs((orig.x - cow.x) - (orig.shape.x - cow.shape.x))
-      local diffy = math.abs((orig.y - cow.y) - (orig.shape.y - cow.shape.y))
+      local diffx = math.abs((orig.x - cow.x) - (orig.bbox.x - cow.bbox.x))
+      local diffy = math.abs((orig.y - cow.y) - (orig.bbox.y - cow.bbox.y))
       assert.is_true(diffx <= epsilon)
       assert.is_true(diffy <= epsilon)
     end)

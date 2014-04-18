@@ -128,9 +128,9 @@ describe("Player", function()
                 assert.spy(Runner.gameover).was.called(1)
             end)
 
-            it("should move its shape the same amount as it moves", function()
+            it("should move its bounding box the same amount as it moves", function()
                 local player = Player:new(mock_input('up'))
-                player.shape = {
+                player.bbox = {
                   x = player.x,
                   y = player.y,
                   size = {
@@ -139,12 +139,12 @@ describe("Player", function()
                   }
                 }
                 orig = {x = player.x, y = player.y}
-                orig.shape = {x = player.shape.x, y = player.shape.y}
+                orig.bbox = {x = player.bbox.x, y = player.bbox.y}
 
                 player:update(1)
 
-                assert.is.equal(orig.x - player.x, orig.shape.x - player.shape.x)
-                assert.is.equal(orig.y - player.y, orig.shape.y - player.shape.y)
+                assert.is.equal(orig.x - player.x, orig.bbox.x - player.bbox.x)
+                assert.is.equal(orig.y - player.y, orig.bbox.y - player.bbox.y)
             end)
         end)
 

@@ -19,12 +19,12 @@ function Entity:draw()
 end
 
 function Entity:bounds()
-    if self.shape then
+    if self.bbox then
       return {
-        top = self.shape.y,
-        left = self.shape.x,
-        bottom = self.shape.y + self.shape.size.y,
-        right = self.shape.x + self.shape.size.x
+        top = self.bbox.y,
+        left = self.bbox.x,
+        bottom = self.bbox.y + self.bbox.size.y,
+        right = self.bbox.x + self.bbox.size.x
       }
     else
       return {

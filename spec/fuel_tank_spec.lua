@@ -1,7 +1,7 @@
 require 'entity'
 require 'fuel_tank'
 
-describe("Fuel Tank", function()   
+describe("Fuel Tank", function()
     mock_graphics = function()
           local graphics_spy = {
               rectangle = spy.new(function() end)
@@ -14,6 +14,9 @@ describe("Fuel Tank", function()
     end)
 
     describe("#update", function()
+      before_each(function()
+        Runner.gameover = spy.new(function() end)
+      end)
 
       describe("fuel consumption", function()
             it("should start full tank of fuel", function()
@@ -41,7 +44,7 @@ describe("Fuel Tank", function()
 
               fuel_tank:update(1)
 
-              assert.spy(Runner.gameover).was.called()
+              assert.spy(Runner.gameover).was.called(1)
               assert.is.equal(true, fuel_tank:is_empty())
             end)
 
