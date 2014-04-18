@@ -35,11 +35,16 @@ function Asteroid.init()
       newAsteroid.xratio = (newAsteroid.graphics.sprites:getWidth() / newAsteroid.graphics.sprites:getHeight())
       newAsteroid.sx = newAsteroid.size.x / newAsteroid.graphics.sprites:getWidth()
       newAsteroid.sy = newAsteroid.size.y / newAsteroid.graphics.sprites:getHeight() * newAsteroid.yratio
-      newAsteroid.bbox = config.bbox or {
-        x = newAsteroid.x,
-        y = newAsteroid.y + newAsteroid.size.y*0.25,
-        size = {x = newAsteroid.size.x*0.75, y = newAsteroid.size.y*0.75}
-      }
+
+      newAsteroid.bboxes = BoundingBoxes:new(newAsteroid, {
+          {
+              left = 3 * newAsteroid.sx,
+              right = 346 * newAsteroid.sx,
+              top = 84 * newAsteroid.sy,
+              bottom = 453 * newAsteroid.sy
+          }
+      })
+
       newAsteroid.graphics.grid = game.animation.newGrid(
       newAsteroid.size.x, newAsteroid.size.y,
       newAsteroid.graphics.sprites:getWidth(),
@@ -62,15 +67,17 @@ Asteroid.new = Asteroid.init()
 function Asteroid:update(dt)
   self.x = self.x - self.dx * dt
   self.y = self.y - self.dy * dt
-  if self.bbox then
-    self.bbox.x = self.bbox.x - self.dx * dt
-    self.bbox.y = self.bbox.y - self.dy * dt
+  if self.bboxes then
+      self.bboxes:update()
   end
 end
 
 function Asteroid:draw()
   self.game.graphics.draw(self.graphics.sprites, self.x, self.y, 0, self.sx, self.sy)
   if DEBUG_MODE then
-      self.game.graphics.rectangle("line", self.bbox.x, self.bbox.y, self.bbox.size.x, self.bbox.size.y)
+      for i = 1, #self.bboxes.boxes do
+          local box = self.bboxes.boxes[i]
+          self.game.graphics.rectangle("line", box.x, box.y, box.size.x, box.size.y)
+      end
   end
 end

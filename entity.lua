@@ -19,35 +19,58 @@ function Entity:draw()
 end
 
 function Entity:bounds()
-    if self.bbox then
-      return {
-        top = self.bbox.y,
-        left = self.bbox.x,
-        bottom = self.bbox.y + self.bbox.size.y,
-        right = self.bbox.x + self.bbox.size.x
-      }
-    else
-      return {
+    return {
         top = self.y,
         left = self.x,
         bottom = self.y + self.size.y,
         right = self.x + self.size.x
-      }
-    end
+    }
 end
 
 function Entity:collidingWith(other)
-    local bounds = self:bounds()
-    local other = other:bounds()
 
-    local my_left_overlaps_their_right = bounds.left <= other.right and bounds.right >= other.right
-    local my_right_overlaps_their_left = bounds.right >= other.left and bounds.left <= other.left
+    local isColliding = function(fst, snd)
+        local bounds = fst
+        local other = snd
 
-    local my_top_overlaps_their_bottom = bounds.top <= other.bottom and bounds.bottom >= other.bottom
-    local my_bottom_overlaps_their_top = bounds.bottom >= other.top and bounds.top <= other.top
+        local my_left_overlaps_their_right = bounds.left <= other.right and bounds.right >= other.right
+        local my_right_overlaps_their_left = bounds.right >= other.left and bounds.left <= other.left
 
-    return (my_left_overlaps_their_right or my_right_overlaps_their_left) and
-            (my_top_overlaps_their_bottom or my_bottom_overlaps_their_top)
+        local my_top_overlaps_their_bottom = bounds.top <= other.bottom and bounds.bottom >= other.bottom
+        local my_bottom_overlaps_their_top = bounds.bottom >= other.top and bounds.top <= other.top
+
+        return (my_left_overlaps_their_right or my_right_overlaps_their_left) and
+        (my_top_overlaps_their_bottom or my_bottom_overlaps_their_top)
+    end
+
+    fst = self:bounds()
+    snd = other:bounds()
+
+    if #fst == 0 and #snd == 0 then
+        return isColliding(fst, snd)
+    elseif #fst == 0 then
+        for i = 1, #snd do
+            if isColliding(fst, snd[i]) then
+                return true
+            end
+        end
+    elseif #snd == 0 then
+        for i = 1, #fst do
+            if isColliding(fst[i], snd) then
+                return true
+            end
+        end
+    else
+        for i = 1, #fst do
+            for j = 1, #snd do
+                if isColliding(fst[i], snd[j]) then
+                    return true
+                end
+            end
+        end
+    end
+
+    return false
 end
 
 function Entity:collide(other)

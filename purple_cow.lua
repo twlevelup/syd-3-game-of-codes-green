@@ -34,11 +34,14 @@ function PurpleCow.init()
       new_purple_cow.xratio = (new_purple_cow.graphics.sprites:getWidth() / new_purple_cow.graphics.sprites:getHeight())
       new_purple_cow.sx = new_purple_cow.size.x / new_purple_cow.graphics.sprites:getWidth()
       new_purple_cow.sy = new_purple_cow.size.y / new_purple_cow.graphics.sprites:getHeight() * new_purple_cow.yratio
-      new_purple_cow.bbox = config.bbox or {
-        x = new_purple_cow.x,
-        y = new_purple_cow.y + new_purple_cow.size.y*0.25,
-        size = {x = new_purple_cow.size.x*0.75, y = new_purple_cow.size.y*0.75}
-      }
+      new_purple_cow.bboxes = BoundingBoxes:new(new_purple_cow, {
+        {
+          left = 177 * new_purple_cow.sx,
+          top = 64 * new_purple_cow.sy,
+          right = 819 * new_purple_cow.sx,
+          bottom = 678 * new_purple_cow.sy
+        }
+      })
       new_purple_cow.graphics.grid = game.animation.newGrid(
         new_purple_cow.size.x, new_purple_cow.size.y,
         new_purple_cow.graphics.sprites:getWidth(),
@@ -61,15 +64,17 @@ PurpleCow.new = PurpleCow.init()
 function PurpleCow:update(dt)
   self.x = self.x - self.dx * dt
   self.y = self.y - self.dy * dt + 4 * math.cos(self.x / 100)
-  if self.bbox then
-    self.bbox.x = self.bbox.x - self.dx * dt
-    self.bbox.y = self.bbox.y - self.dy * dt + 4 * math.cos(self.x / 100)
+  if self.bboxes then
+      self.bboxes:update()
   end
 end
 
 function PurpleCow:draw()
   self.game.graphics.draw(self.graphics.sprites, self.x, self.y, 0, self.sx, self.sy)
   if DEBUG_MODE then
-      self.game.graphics.rectangle("line", self.bbox.x, self.bbox.y, self.bbox.size.x, self.bbox.size.y)
+      for i = 1, #self.bboxes.boxes do
+          local box = self.bboxes.boxes[i]
+          self.game.graphics.rectangle('line', box.x, box.y, box.size.x, box.size.y)
+      end
   end
 end
