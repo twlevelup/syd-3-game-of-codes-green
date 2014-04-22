@@ -38,10 +38,10 @@ function Asteroid.init()
 
       newAsteroid.bboxes = BoundingBoxes:new(newAsteroid, {
           {
-              left = 3 * newAsteroid.sx,
-              right = 346 * newAsteroid.sx,
-              top = 84 * newAsteroid.sy,
-              bottom = 453 * newAsteroid.sy
+              left = 3,
+              right = 346,
+              top = 84,
+              bottom = 453
           }
       })
 

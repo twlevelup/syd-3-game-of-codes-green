@@ -70,16 +70,16 @@ function Player:new(game, config)
 
         newPlayer.bboxes = BoundingBoxes:new(newPlayer, {
             {
-                left = 549 * newPlayer.sx,
-                right = 1350 * newPlayer.sx,
-                top = 435 * newPlayer.sy,
-                bottom = 693 * newPlayer.sy
+                left = 549,
+                right = 1350,
+                top = 435,
+                bottom = 693
             },
             {
-                left = 15 * newPlayer.sx,
-                right = 1890 * newPlayer.sx,
-                top = 693 * newPlayer.sy,
-                bottom = 1239 * newPlayer.sy
+                left = 15,
+                right = 1890,
+                top = 693,
+                bottom = 1239
             }
         })
     end

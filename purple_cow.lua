@@ -36,10 +36,10 @@ function PurpleCow.init()
       new_purple_cow.sy = new_purple_cow.size.y / new_purple_cow.graphics.sprites:getHeight() * new_purple_cow.yratio
       new_purple_cow.bboxes = BoundingBoxes:new(new_purple_cow, {
         {
-          left = 177 * new_purple_cow.sx,
-          top = 64 * new_purple_cow.sy,
-          right = 819 * new_purple_cow.sx,
-          bottom = 678 * new_purple_cow.sy
+          left = 177,
+          top = 64,
+          right = 819,
+          bottom = 678
         }
       })
       new_purple_cow.graphics.grid = game.animation.newGrid(

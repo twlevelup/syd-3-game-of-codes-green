@@ -29,6 +29,21 @@ describe("Bbox", function()
                 assert.is.equal(10, bboxes.boxes[i].y)
             end
         end)
+
+        it('should have a scaling of 1 if the entity does not have a scaling', function()
+            local bboxes = BoundingBoxes:new(e1, {{left = 10, bottom = 20, top = 10, right = 20}})
+
+            assert.is.equal(1, bboxes.sx)
+            assert.is.equal(1, bboxes.sy)
+        end)
+
+        it('should have the same scaling as the entity', function()
+            e1.sx, e1.sy = 10, 10
+            local bboxes = BoundingBoxes:new(e1, {{left = 10, bottom = 20, top = 10, right = 20}})
+
+            assert.is.equal(10, bboxes.sx)
+            assert.is.equal(10, bboxes.sy)
+        end)
     end)
 
     describe('#collidingWith', function()
