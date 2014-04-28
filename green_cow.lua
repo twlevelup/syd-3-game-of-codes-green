@@ -1,48 +1,86 @@
 require 'entity'
 
-Green_Cow = {}
-Green_Cow.__index = Green_Cow
-setmetatable(Green_Cow, {__index = Entity})
+GreenCow = {}
+GreenCow.__index = GreenCow
+setmetatable(GreenCow, {__index = Entity})
 
-function Green_Cow:new(game, config)
-  local config = config or {}
-  local newGreen_Cow = Entity:new(game)
-
-  math.randomseed(os.time())
-  newGreen_Cow.x = config.x or 400
-  newGreen_Cow.y = config.y or 300
-
-   newGreen_Cow.size = config.size or {x = 100, y = 100}
-
-  newGreen_Cow.graphics = config.graphics or {source = "assets/images/GreenCow.png"}
-  if game.graphics ~= nil and game.animation ~= nil then
-    newGreen_Cow.graphics.sprites = game.graphics.newImage(newGreen_Cow.graphics.source)
-    newPurple_Cow.sx = 100 / newPurple_Cow.graphics.sprites:getWidth()
-    newGreen_Cow.sy = 100 / newPurple_Cow.graphics.sprites:getHeight()
-    newPurple_Cow.graphics.grid = game.animation.newGrid(
-      newPurple_Cow.size.x, newPurple_Cow.size.y,
-      newPurple_Cow.graphics.sprites:getWidth(),
-      newPurple_Cow.graphics.sprites:getHeight()
-    )
-    newPurple_Cow.graphics.animation = game.animation.newAnimation(
-      newPurple_Cow.graphics.grid("1-1", 1),
-      0.05
-    )
+function GreenCow.init()
+  local game = love or {} -- hack around the unit tests
+  local graphics = {source = "assets/images/GreenCow.png"}
+  local sprite = {}
+  if game.graphics then
+    sprite = game.graphics.newImage(graphics.source)
   end
 
-  newPurple_Cow.type = 'Purple_Cow'
+  return function(self, game, config)
+    local config = config or {}
+    local new_green_cow = Entity:new(game)
 
-  return setmetatable(newPurple_Cow, self)
+    new_green_cow.x = config.x or 800
+    new_green_cow.y = config.y or math.random(0, 600)
+    new_green_cow.to = config.to or {x = 0, y = math.random(0, 600)}
+
+    new_green_cow.angle = math.atan2(new_green_cow.y - new_green_cow.to.y, new_green_cow.x - new_green_cow.to.x)
+    new_green_cow.speed = config.speed or 300
+    new_green_cow.dx = new_green_cow.speed * math.cos(new_green_cow.angle)
+    new_green_cow.dy = new_green_cow.speed * math.sin(new_green_cow.angle)
+
+    new_green_cow.size = config.size or {x = 70, y = 70}
+
+    new_green_cow.graphics = graphics
+    if game.graphics ~= nil and game.animation ~= nil then
+      new_green_cow.graphics.sprites = sprite
+      new_green_cow.yratio = (new_green_cow.graphics.sprites:getHeight() / new_green_cow.graphics.sprites:getWidth())
+      new_green_cow.xratio = (new_green_cow.graphics.sprites:getWidth() / new_green_cow.graphics.sprites:getHeight())
+      new_green_cow.sx = new_green_cow.size.x / new_green_cow.graphics.sprites:getWidth()
+      new_green_cow.sy = new_green_cow.size.y / new_green_cow.graphics.sprites:getHeight() * new_green_cow.yratio
+      new_green_cow.bboxes = BoundingBoxes:new(new_green_cow, {
+        {
+          left = 177,
+          top = 64,
+          right = 819,
+          bottom = 678
+        }
+      })
+      new_green_cow.graphics.grid = game.animation.newGrid(
+        new_green_cow.size.x, new_green_cow.size.y,
+        new_green_cow.graphics.sprites:getWidth(),
+        new_green_cow.graphics.sprites:getHeight()
+        )
+      new_green_cow.graphics.animation = game.animation.newAnimation(
+      new_green_cow.graphics.grid("1-1", 1),
+      0.05
+      )
+    end
+
+    new_green_cow.type = 'green_cow'
+
+    return setmetatable(new_green_cow, self)
+  end
 end
 
-function Purple_Cow:update(dt)
-  
-  -- body
+GreenCow.new = GreenCow.init()
+
+function GreenCow:update(dt)
+  self.x = self.x - self.dx * dt
+  self.y = self.y - self.dy * dt + 4 * math.sin(self.x / 100)
+  if self.bboxes then
+      self.bboxes:update()
+  end
 end
 
-function Purple_Cow:draw()
-  self.game.graphics.draw(self.graphics.sprites, self.x, self.y, self.angle, self.sx, self.sy)
+function GreenCow:collide(other)
+  if other.type == 'bullet' then
+    Runner.player:updatescore(-1000)
+  end
+end
+
+function GreenCow:draw()
+  self.game.graphics.draw(self.graphics.sprites, self.x, self.y, 0, self.sx, self.sy)
   if DEBUG_MODE then
-      self.game.graphics.rectangle("line", self.x, self.y, self.size.x, self.size.y)
+      for i = 1, #self.bboxes.boxes do
+          local box = self.bboxes.boxes[i]
+          self.game.graphics.rectangle('line', box.x, box.y, box.size.x, box.size.y)
+      end
   end
 end

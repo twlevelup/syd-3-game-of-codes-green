@@ -26,6 +26,7 @@ function Runner:enter()
     table.insert(self.entities, self.player)
     table.insert(self.entities, self.asteroid)
     table.insert(self.entities, self.purple_cow)
+    table.insert(self.entities, self.green_cow)
     table.insert(self.entities, self.fuel_tank)
 
     -- add the Asteroids
@@ -36,6 +37,10 @@ function Runner:enter()
 
     self.timer:addPeriodic(5, function()
       table.insert(self.entities, PurpleCow:new(love))
+    end)
+
+    self.timer:addPeriodic(30, function()
+      table.insert(self.entities, GreenCow:new(love))
     end)
 
     self.timer:addPeriodic(0.2, function()

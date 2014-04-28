@@ -11,6 +11,8 @@ function Player:new(game, config)
 
     local newPlayer = Entity:new(game)
     newPlayer.type = "player"
+    newPlayer.glowmode = false
+    newPlayer.lastHitBy = nil
     newPlayer.x = config.x or 400
     newPlayer.y = config.y or 300
     newPlayer.min_y = config.min_y or 0
@@ -96,9 +98,16 @@ end
 
 function Player:collide(other)
     if other.type == 'asteroid' then
-        Runner:gameover()
+      if self.glowmode == true then
+         self.glowmode = false
+         self.lasthitby = other
+      elseif self.lasthitby ~= other then
+         Runner:gameover()
+      end
     elseif other.type == 'purple_cow' then
         Runner.fuel_tank:add_fuel(0.2)
+    elseif other.type == 'green_cow' and self.glowmode == false then
+        self.glowmode = true
     end
 end
 
