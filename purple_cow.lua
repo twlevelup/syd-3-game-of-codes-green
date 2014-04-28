@@ -69,6 +69,12 @@ function PurpleCow:update(dt)
   end
 end
 
+function PurpleCow:collide(other)
+  if other.type == 'bullet' then
+    Runner.player:updatescore(1000000)
+  end
+end
+
 function PurpleCow:draw()
   self.game.graphics.draw(self.graphics.sprites, self.x, self.y, 0, self.sx, self.sy)
   if DEBUG_MODE then
