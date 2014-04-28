@@ -192,5 +192,8 @@ function Player:draw()
           self.game.graphics.rectangle('line', box.x, box.y, box.size.x, box.size.y)
       end
   end
+  if self.glowmode == true then
+     love.graphics.circle( "line", self.x+self.size.x/2, self.y+self.size.y/2, self.size.x/2, 100 )
+end
   love.graphics.printf("Score: " .. self.score, love.window.getWidth() * 0.80, love.window.getHeight() * 0.015, 400, "left", 0, 1, 1.5)
 end
