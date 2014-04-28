@@ -21,6 +21,13 @@ function Fuel_tank:new(love, config)
     return setmetatable(new_fuel_tank, self)
 end
 
+function Fuel_tank:add_fuel(amount)
+    self.fuel = self.fuel + amount
+    if self.fuel > self.max_fuel then
+       self.fuel = self.max_fuel
+    end
+end
+
 function Fuel_tank:get_fuel()
     return self.fuel
 end

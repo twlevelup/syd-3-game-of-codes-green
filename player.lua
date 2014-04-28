@@ -97,6 +97,8 @@ end
 function Player:collide(other)
     if other.type == 'asteroid' then
         Runner:gameover()
+    elseif other.type == 'purple_cow' then
+        Runner.fuel_tank:add_fuel(0.2)
     end
 end
 
