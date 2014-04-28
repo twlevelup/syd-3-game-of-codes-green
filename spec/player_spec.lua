@@ -131,10 +131,8 @@ describe("Player", function()
             it("should add fuel when colliding with a cow", function()
                 local player = Player:new({})
                 local purplecow = PurpleCow:new({})
-                Runner = {
-                    fuel_tank = {
+                Runner.fuel_tank = {
                         add_fuel = spy.new(function() end)
-                    }
                 }
                 player:collide(purplecow)
                 assert.spy(Runner.fuel_tank.add_fuel).was.called(1)
