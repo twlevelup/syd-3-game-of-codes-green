@@ -71,7 +71,9 @@ end
 
 function PurpleCow:collide(other)
   if other.type == 'bullet' then
-    Runner.player:updatescore(1000000)
+    Runner.player:updatescore(1000)
+    self.dx = 0
+    self.dy = 10000000
   end
 end
 

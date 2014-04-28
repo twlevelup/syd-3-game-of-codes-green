@@ -181,7 +181,7 @@ function Player:update(dt)
 end
 
 function Player:shoot()
-    table.insert(Runner.entities, Bullet:new(love, {x = self.x, y=self.y+50, x2=self.x+100, y2=self.y+50}))
+    table.insert(Runner.entities, Bullet:new(love, {x = self.size.x-50, y=self.y+70, x2=self.size.x+50, y2=self.y+70}))
 end
 
 function Player:draw()

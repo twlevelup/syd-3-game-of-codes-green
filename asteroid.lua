@@ -22,7 +22,7 @@ function Asteroid.init()
     newAsteroid.to = config.to or {x = 0, y = math.random(0, 600)}
 
     newAsteroid.angle = math.atan2(newAsteroid.y - newAsteroid.to.y, newAsteroid.x - newAsteroid.to.x)
-    newAsteroid.speed = config.speed or 300
+    newAsteroid.speed = config.speed or 400
     newAsteroid.dx = newAsteroid.speed * math.cos(newAsteroid.angle)
     newAsteroid.dy = newAsteroid.speed * math.sin(newAsteroid.angle)
 
