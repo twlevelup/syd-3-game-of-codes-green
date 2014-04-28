@@ -43,7 +43,7 @@ function Runner:enter()
       table.insert(self.entities, GreenCow:new(love))
     end)
 
-    self.timer:addPeriodic(0.2, function()
+    self.timer:addPeriodic(0.02, function()
         self.player:updatescore(1)
     end)
 
