@@ -51,6 +51,14 @@ function Runner:enter()
     Runner:playmusic("assets/sounds/bgm.mp3")
 end
 
+function Runner:remove(entity)
+    for i, e in ipairs(self.entities) do
+        if e == entity then
+            table.remove(self.entities, i)
+        end
+    end
+end
+
 function Runner:playmusic(song)
     bgm = love.audio.newSource(song)
     bgm:setLooping(true)

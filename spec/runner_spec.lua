@@ -14,4 +14,13 @@ describe("Runner", function()
       assert.spy(love.state.push).was.called(1)
     end)
   end)
+
+  describe("#remove", function()
+      it("should remove a given entity from the game", function()
+          local e = {}
+          table.insert(Runner.entities, e)
+          Runner:remove(e)
+          assert.is_true(Runner.entities[e] == nil)
+      end)
+  end)
 end)

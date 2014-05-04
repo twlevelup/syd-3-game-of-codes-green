@@ -27,6 +27,9 @@ end
 function Bullet:update(dt)
   self.x = self.x + self.speed * dt
   self.x2 = self.x2 + self.speed * dt
+  if self.game.graphics and self.x > self.game.graphics:getWidth() then
+      Runner:remove(self)
+  end
 end
 
 function Bullet:draw()

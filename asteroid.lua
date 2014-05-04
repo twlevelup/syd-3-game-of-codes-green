@@ -70,6 +70,9 @@ function Asteroid:update(dt)
   if self.bboxes then
       self.bboxes:update()
   end
+  if self.x < 0 - self.size.x then
+      Runner:remove(self)
+  end
 end
 
 function Asteroid:draw()

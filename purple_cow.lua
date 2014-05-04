@@ -67,13 +67,16 @@ function PurpleCow:update(dt)
   if self.bboxes then
       self.bboxes:update()
   end
+  if self.x < 0 - self.size.x then
+      Runner:remove(self)
+  end
 end
 
 function PurpleCow:collide(other)
   if other.type == 'bullet' then
     Runner.player:updatescore(500)
-    self.dx = 0
-    self.dy = 10000000
+    Runner:remove(self)
+    Runner:remove(other)
   end
 end
 

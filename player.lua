@@ -105,7 +105,7 @@ function Player:collide(other)
          Runner:gameover()
       end
     elseif other.type == 'purple_cow' then
-        Runner.fuel_tank:add_fuel(0.4)
+        Runner.fuel_tank:add_fuel(0.3)
     elseif other.type == 'green_cow' and self.glowmode == false then
         self.glowmode = true
     end
