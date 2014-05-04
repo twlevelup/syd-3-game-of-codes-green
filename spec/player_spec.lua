@@ -50,24 +50,6 @@ describe("Player", function()
           return player.y <= player.max_y - player.size.y
         end
 
-        describe("playing the movement sound", function()
-            it("should play the movement sound when the player is moving", function()
-                local player = Player:new(mock_input('up'))
-                player.sound.moving.sample = mock_sound()
-                player:update(dt)
-
-                assert.spy(player.sound.moving.sample.play).was.called()
-            end)
-
-            it("should stop playing the movement sound when the player is stationary", function()
-                local player = Player:new(mock_input('none'))
-                player.sound.moving.sample = mock_sound()
-                player:update(dt)
-
-                assert.spy(player.sound.moving.sample.stop).was.called()
-            end)
-        end)
-
         describe("lastPosition", function()
             it("should store the last position before moving vertically", function()
                 orig_x = 10
@@ -140,22 +122,43 @@ describe("Player", function()
         end)
 
         describe("player shooting",function()
-            it("should shoot a bullet when the z key is pressed", function( )
+            it("should shoot and play the sound when the sound isn't playing", function()
                 local player = Player:new(mock_input('z'))
+                player.sound = {
+                    shoot = {
+                        sample = {
+                            isPlaying = spy.new(function(self) 
+                                return false
+                            end),
+
+                            play = spy.new(function(self) end)
+                        }
+                    }
+                }
                 player.shoot = spy.new(function() end)
 
                 player:update(1)
+
                 assert.spy(player.shoot).was.called(1)
+                assert.spy(player.sound.shoot.sample.play).was.called(1)
             end)
 
-            it('should only shoot one bullet per keypress', function()
+            it("shouldn't shoot when the sound is playing", function()
                 local player = Player:new(mock_input('z'))
+                player.sound = {
+                    shoot = {
+                        sample = {
+                            isPlaying = spy.new(function(self) 
+                                return true 
+                            end)
+                        }
+                    }
+                }
                 player.shoot = spy.new(function() end)
 
                 player:update(1)
-                player:update(1)
 
-                assert.spy(player.shoot).was.called(1)
+                assert.spy(player.shoot).was.called(0)
             end)
         end)
 

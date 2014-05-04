@@ -42,8 +42,8 @@ function Player:new(game, config)
     }
 
     newPlayer.sound = config.sound or {
-        moving = {
-            source = "assets/sounds/move.wav"
+        shoot = {
+            source = "assets/sounds/laser.ogg"
         }
     }
 
@@ -53,8 +53,8 @@ function Player:new(game, config)
     }
 
     if game.audio ~= nil then
-        newPlayer.sound.moving.sample = game.audio.newSource(newPlayer.sound.moving.source)
-        newPlayer.sound.moving.sample:setLooping(true)
+        newPlayer.sound.shoot.sample = game.audio.newSource(newPlayer.sound.shoot.source)
+        newPlayer.sound.shoot.sample:setLooping(false)
     end
 
     if game.graphics ~= nil and game.animation ~= nil then
@@ -105,7 +105,7 @@ function Player:collide(other)
          Runner:gameover()
       end
     elseif other.type == 'purple_cow' then
-        Runner.fuel_tank:add_fuel(0.2)
+        Runner.fuel_tank:add_fuel(0.4)
     elseif other.type == 'green_cow' and self.glowmode == false then
         self.glowmode = true
     end
@@ -143,11 +143,9 @@ function Player:update(dt)
         end
     end
 
-    if self.game.input.pressed(self.keys.shoot) and not self.isshooting then
+    if self.game.input.pressed(self.keys.shoot) and not self.sound.shoot.sample:isPlaying() then
         self:shoot()
-        self.isshooting = true
-    elseif not self.game.input.pressed(self.keys.shoot) then
-        self.isshooting = false
+        self.sound.shoot.sample:play()
     end
 
     self.lastPosition = {
@@ -167,14 +165,6 @@ function Player:update(dt)
             self.graphics.animation:update(dt)
         else
             self.graphics.animation:gotoFrame(1)
-        end
-    end
-
-    if self.sound.moving.sample ~= nil then
-        if dy ~= 0 or dx ~= 0  then
-            self.sound.moving.sample:play()
-        else
-            self.sound.moving.sample:stop()
         end
     end
 

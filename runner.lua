@@ -48,12 +48,13 @@ function Runner:enter()
     end)
 
     -- play background music
-    -- Runner:playmusic("assets/sounds/Game_Background.mp3")
+    Runner:playmusic("assets/sounds/bgm.mp3")
 end
 
 function Runner:playmusic(song)
     bgm = love.audio.newSource(song)
     bgm:setLooping(true)
+    bgm:setVolume(0.6)
     bgm:play()
 end
 
