@@ -39,7 +39,7 @@ function Runner:enter()
       table.insert(self.entities, PurpleCow:new(love))
     end)
 
-    self.timer:addPeriodic(30, function()
+    self.timer:addPeriodic(15, function()
       table.insert(self.entities, GreenCow:new(love))
     end)
 

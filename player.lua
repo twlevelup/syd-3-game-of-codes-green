@@ -112,7 +112,7 @@ function Player:collide(other)
             self.sound.cow.sample:play()
         end
         self.lasthitby = other
-        Runner.fuel_tank:add_fuel(0.3)
+        Runner.fuel_tank:add_fuel(0.4)
     elseif other.type == 'green_cow' and self.glowmode == false then
         if self.sound.cow.sample then
             self.sound.cow.sample:play()
