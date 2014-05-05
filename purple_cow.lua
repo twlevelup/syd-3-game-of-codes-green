@@ -53,6 +53,16 @@ function PurpleCow.init()
       )
     end
 
+    new_purple_cow.sound = config.sound or {
+        bang = {
+            source = "assets/sounds/bang-cow.wav"
+        }
+    }
+
+    if game.audio ~= nil then
+        new_purple_cow.sound.bang.sample = game.audio.newSource(new_purple_cow.sound.bang.source)
+    end
+
     new_purple_cow.type = 'purple_cow'
 
     return setmetatable(new_purple_cow, self)
@@ -75,6 +85,9 @@ end
 function PurpleCow:collide(other)
   if other.type == 'bullet' then
     Runner.player:updatescore(500)
+    if self.sound.bang.sample then
+        self.sound.bang.sample:play()
+    end
     Runner:remove(self)
     Runner:remove(other)
   end

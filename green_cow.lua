@@ -7,7 +7,11 @@ setmetatable(GreenCow, {__index = Entity})
 function GreenCow.init()
   local game = love or {} -- hack around the unit tests
   local graphics = {source = "assets/images/GreenCow.png"}
+  local bang = {source = "assets/sounds/bang-cow.wav"}
   local sprite = {}
+  if game.audio then
+      bang = {sample = game.audio.newSource(bang.source)}
+  end
   if game.graphics then
     sprite = game.graphics.newImage(graphics.source)
   end
@@ -53,6 +57,11 @@ function GreenCow.init()
       )
     end
 
+    new_green_cow.sound = {bang = {bang.source}}
+    if game.audio ~= nil then
+        new_green_cow.sound.bang.sample = bang.sample
+    end
+
     new_green_cow.type = 'green_cow'
 
     return setmetatable(new_green_cow, self)
@@ -75,6 +84,10 @@ end
 function GreenCow:collide(other)
   if other.type == 'bullet' then
     Runner.player:updatescore(-1000)
+    if self.sound.bang then
+        self.sound.bang.sample:play()
+    end
+    Runner:remove(self)
   end
 end
 
